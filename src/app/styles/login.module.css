@@ -1,0 +1,36 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.form h1 {
+    margin-bottom: 20px;
+    color: #E8F1F3;
+    font-size: 2.5rem;
+}
+
+.form input {
+    width: 24.875rem;
+    padding: 10px 24px;
+    height: 3rem;
+    margin-bottom: 1.5rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #232241;
+    color: #E8F1F3;
+    font-size: 1.2rem;
+    outline: none;
+}
+
+.form button {
+    background: #332280;
+    width: 13.75rem;
+    height: 3rem;
+    border: none;
+    color: #E8F1F3;
+    font-size: 20px;
+    border-radius: 10px;
+}
