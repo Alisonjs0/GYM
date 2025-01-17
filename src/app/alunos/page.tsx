@@ -1,27 +1,45 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ListInfo from "../components/ListInfo";
 import Search from "../components/search";
 
 import styles from "../styles/alunos.module.css";
 import MenuList from "../components/MenuList";
 import Forms from "../components/Forms";
-import FormsAdc from "../components/FormsAdc";
 
 import { IoIosClose } from "react-icons/io";
 
 const page = () => {
   const [stage, setStage] = useState("alunos");
+  const [formData, setFormData] = useState<{ 
+    nome: string; data: string; sexo: string; tel: string; plano: string;
+    objt?: string; altura?: string; exp?: string; peso?: string; condicoes?: string; indicacao?: string;
+  }>({
+    nome: "",
+    data: "",
+    sexo: "",
+    tel: "",
+    plano: "",
 
-  const [nome, setNome] = useState("");
-  const [data, setData] = useState("");
-  const [sexo, setSexo] = useState("");
-  const [tel, setTel] = useState("");
-  const [plano, setPlano] = useState("");
+    objt: "",
+    altura: "",
+    exp: "",
+    peso: "",
+    condicoes: "",
+    indicacao: "",
+  })
+
+
+  const handleFormSubmit = (data: {nome: string; data: string; sexo: string; tel: string; plano: string; objt?: string; altura?: string; exp?: string; peso?: string; condicoes?: string; indicacao?: string;}) => {
+      setFormData((prevData) => ({
+        ...prevData,
+        ...data
+      }));
+  }
 
   // Informacoes Opcionais
-  const [objt, setObjt] = useState("");
+
   const [altura, setAltura] = useState("");
   const [exp, setExp] = useState("");
   const [peso, setPeso] = useState("");
@@ -79,38 +97,12 @@ const page = () => {
           <Forms
             campo1="Nome:"
             campo2="Data de Nascimento:"
-            campo3="Genero:"
+            campo3="Sexo:"
             campo4="Telefone:"
             campo5="Plano:"
             button="Cadastrar Aluno"
-            className="formsGeral"
-            setNome={setNome}
-            setData={setData}
-            setSexo={setSexo}
-            setTel={setTel}
-            setPlano={setPlano}
+            onSubmit={handleFormSubmit}
           >
-            <FormsAdc
-              campo1="Objetivo do aluno:"
-              campo2="Altura:"
-              campo3="Experiencia:"
-              campo4="Peso"
-              campo5="Condicoes especiais:"
-              campo6="Indicacao:"
-              className="formsADC"
-              objt={objt}
-              setObjt={setObjt}
-              altura={altura}
-              setAltura={setAltura}
-              exp={exp}
-              setExp={setExp}
-              peso={peso}
-              setPeso={setPeso}
-              condicoes={condicoes}
-              setCondicoes={setCondicoes}
-              indicacao={indicacao}
-              setIndicacao={setIndicacao}
-            />
           </Forms>
         </div>
       )}
