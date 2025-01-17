@@ -24,14 +24,6 @@
     background: #151330;
 }
 
-.list {
-    cursor: pointer;
-}
-
-.list:hover {
-    transition: .5s;
-    transform: scale(1.04);
-}
 
 .formsGeral form {
     background: red;

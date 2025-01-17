@@ -19,14 +19,17 @@ const page = () => {
           <MenuSection
             icon={<MdPersonSearch />}
             title="Lista de Matriculados"
+            link="/alunos"
           />
           <MenuSection
             icon={<MdPersonAddDisabled />}
             title="Matriculas expiradas"
+            link="/alunos"
           />
           <MenuSection
             icon={<MdPersonAddAlt1 />}
             title="Cadastrar novo aluno"
+            link="/alunos"
           />
         </div>
     </div>

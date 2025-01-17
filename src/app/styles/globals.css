@@ -12,7 +12,7 @@ body {
 }
 
 
-input, select {
+input:not(#search), select {
   background: #232241;
   color: #E8F1F3;
   outline: none;
@@ -20,6 +20,8 @@ input, select {
   padding: 0px 16px;
   border-radius: 0.375rem;
 }
+
+
 
 input[type="date"]::-webkit-calendar-picker-indicator {
   background: transparent;

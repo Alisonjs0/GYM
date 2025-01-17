@@ -51,7 +51,7 @@ const Forms = (props: FormProps) => {
       {props.children && <div className="mt-3">{props.children}</div>}
       <div className="flex justify-end">
         <button
-          className={`bg-[#332280] text-[#F4F4F5] px-4 py-2 rounded-lg drop-shadow-xl my-6`}
+          className={`bg-[#332280] text-[#F4F4F5] px-4 py-2 rounded-lg drop-shadow-xl my-6 transition-transform hover:scale-105`}
         >
           {props.button}
         </button>

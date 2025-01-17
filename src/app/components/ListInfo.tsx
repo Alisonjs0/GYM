@@ -47,7 +47,7 @@ export default function ListInfo({
   };
   return (
     <div
-      className={`${className} bg-[#232241] flex justify-between px-8 py-4 rounded-xl mb-4 drop-shadow-xl `}
+      className={`${className} bg-[#232241] flex justify-between px-8 py-4 rounded-xl mb-4 drop-shadow-xl transition-transform hover:scale-105 cursor-pointer`}
     >
       <p className="text-[#F4F4F5] w-1/2">{nome}</p>
       <p className="text-[#F4F4F5] w-1/4">{contato}</p>

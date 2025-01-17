@@ -1,45 +1,60 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import ListInfo from "../components/ListInfo";
 import Search from "../components/search";
+import Form from "../components/Forms"
 
 import styles from "../styles/alunos.module.css";
 import MenuList from "../components/MenuList";
 
 const page = () => {
+  const [stage, setStage] = useState("agenda");
   return (
-    <div className={styles.container}>
-      <h1 className="text-[#F4F4F5] text-3xl mt-12">Agendamentos:</h1>
-      <div>
-        <Search className={styles.search} />
-        <div>
-          <MenuList
-            nome="Aluno"
-            contato="Data"
-            plano="Tipo"
-            status="Horario"
-          ></MenuList>
-          <ListInfo
-            className={styles.list}
-            nome="Alison Jose Serafim de Lima"
-            contato="26/12/2024"
-            plano="Avaliacao Fisica"
-            status="13:30"
-          />
-          <ListInfo
-            className={styles.list}
-            nome="Alison Jose Serafim de Lima"
-            contato="04/01/2025"
-            plano="Consulta Nutricionista"
-            status="08:20"
-          />
+    <>
+      {stage === "agenda" && (
+        <div className={styles.container}>
+          <h1 className="text-[#F4F4F5] text-3xl mt-12">Agendamentos:</h1>
+          <div>
+            <Search className={styles.search} />
+            <div>
+              <MenuList
+                nome="Aluno"
+                contato="Data"
+                plano="Tipo"
+                status="Horario"
+              ></MenuList>
+              <ListInfo
+                className={styles.list}
+                nome="Alison Jose Serafim de Lima"
+                contato="26/12/2024"
+                plano="Avaliacao Fisica"
+                status="13:30"
+              />
+              <ListInfo
+                className={styles.list}
+                nome="Alison Jose Serafim de Lima"
+                contato="04/01/2025"
+                plano="Consulta Nutricionista"
+                status="08:20"
+              />
+            </div>
+            <button
+              onClick={() => setStage("cadastro")}
+              className={`bg-[#332280] text-[#F4F4F5] px-4 py-2 rounded-lg fixed bottom-12 right-12 z-20 drop-shadow-xl`}
+            >
+              Novo Agendamento
+            </button>
+          </div>
         </div>
-        <button
-          className={`bg-[#332280] text-[#F4F4F5] px-4 py-2 rounded-lg fixed bottom-12 right-12 z-20 drop-shadow-xl`}
-        >
-          Novo Agendamento
-        </button>
-      </div>
-    </div>
+      )}
+      {stage === "cadastro" && (
+        <div className={styles.container}>
+          <h1 className="text-[#F4F4F5] text-2xl mt-12">Novo Agendamento:</h1>
+          <Form campo1="Nome" campo2="Data do agendamento:" campo3="Horario:" campo4="Servico agendado:" campo5="Responsavel" button="Novo Agendamento"/>
+        </div>
+      )}
+    </>
   );
 };
 

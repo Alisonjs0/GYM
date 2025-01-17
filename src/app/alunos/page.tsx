@@ -44,7 +44,7 @@ const page = () => {
               />
             </div>
             <button
-              className={`bg-[#332280] text-[#F4F4F5] px-4 py-2 rounded-lg fixed bottom-12 right-12 z-20 drop-shadow-xl`}
+              className={`bg-[#332280] text-[#F4F4F5] px-4 py-2 rounded-lg fixed bottom-12 right-12 z-20 drop-shadow-xl transition-transform hover:scale-105`}
               onClick={() => setStage("cadastrar")}
             >
               Cadastrar Aluno
