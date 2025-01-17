@@ -1,53 +1,63 @@
-import React from 'react'
+import React from "react";
 
 export interface FormProps {
-    campo1: string;
-    campo2: string;
-    campo3: string;
-    campo4: string;
-    campo5: string;
-    children?: React.ReactNode;
-    button: string;
+  campo1: string;
+  campo2: string;
+  campo3: string;
+  campo4: string;
+  campo5: string;
+  children?: React.ReactNode;
+  button: string;
+  className?: string;
 }
 
 const Forms = (props: FormProps) => {
   return (
-    <>
-    <h1>Cadastrar Aluno:</h1>
-    <form>
-        <label>
-            <span>{props.campo1}</span>
-            <input type="text" />
+    <div className="mt-3">
+      <form className="text-[#F4F4F5] flex flex-col gap-y-2">
+        <label className="flex flex-col">
+          <span>{props.campo1}</span>
+          <input type="text" />
         </label>
-        <label>
+        <div className="flex justify-between gap-4">
+          <label className="flex flex-col w-3/4">
             <span>{props.campo2}</span>
             <input type="date" />
-        </label>
-        <label>
+          </label>
+          <label className="flex flex-col w-1/2">
             <span>{props.campo3}</span>
             <select>
-                <option value="masc">Masculino</option>
-                <option value="fem">Feminino</option>
+              <option value="masc">Masculino</option>
+              <option value="fem">Feminino</option>
             </select>
-        </label>
-        <label>
+          </label>
+        </div>
+        <div className="flex justify-between gap-4">
+          <label className="flex flex-col w-3/4">
             <span>{props.campo4}</span>
             <input type="tel" />
-        </label>
-        <label>
-            <span>{props.campo4}</span>
+          </label>
+          <label className="flex flex-col w-1/2">
+            <span>{props.campo5}</span>
             <select>
-                <option value="mensal">Mensal</option>
-                <option value="trimestral">Trimestral</option>
-                <option value="semestral">Semestral</option>
-                <option value="anual">Anual</option>
+              <option value="mensal">Mensal</option>
+              <option value="trimestral">Trimestral</option>
+              <option value="semestral">Semestral</option>
+              <option value="anual">Anual</option>
             </select>
-        </label>
-    </form>
-    {props.children && <div className="mt-6">{props.children}</div>}
-    <button>{props.button}</button>
-    </>
-  )
-}
+          </label>
+        </div>
+      </form>
+      {props.children && <div className="mt-3">{props.children}</div>}
+      <div className="flex justify-end">
+        <button
+          className={`bg-[#332280] text-[#F4F4F5] px-4 py-2 rounded-lg drop-shadow-xl my-6`}
+        >
+          {props.button}
+        </button>
+      </div>
+    </div>
+  );
+};
 
-export default Forms
+export default Forms;

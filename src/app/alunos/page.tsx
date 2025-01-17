@@ -9,6 +9,8 @@ import MenuList from "../components/MenuList";
 import Forms from "../components/Forms";
 import FormsAdc from "../components/FormsAdc";
 
+import { IoIosClose } from "react-icons/io";
+
 const page = () => {
   const [stage, setStage] = useState("alunos");
 
@@ -52,10 +54,10 @@ const page = () => {
       )}
       {stage === "cadastrar" && (
         <div className={`${styles.container} relative`}>
-          <h1 className="text-[#F4F4F5] text-3xl mt-12">Cadastrar Aluno:</h1>
-          <p onClick={() => setStage("alunos")} className="text-[#f4f4f5] text-3xl cursor-pointer">X</p>
-          <Forms campo1="Nome:" campo2="Data de Nascimento:" campo3="Genero:" campo4="Telefone:" campo5="Plano:" button="Cadastrar Aluno">
-            <FormsAdc campo1="Objetivo do aluno:" campo2="Altura:" campo3="Experiencia:" campo4="Peso" campo5="Condicoes especiais:" campo6="Indicacao:"/>
+          <h1 className="text-[#F4F4F5] text-2xl mt-12">Cadastrar Aluno:</h1>
+          <p onClick={() => setStage("alunos")} className="text-[#f4f4f5] text-3xl cursor-pointer absolute top-0 right-0"><IoIosClose /></p>
+          <Forms campo1="Nome:" campo2="Data de Nascimento:" campo3="Genero:" campo4="Telefone:" campo5="Plano:" button="Cadastrar Aluno" className="formsGeral">
+            <FormsAdc campo1="Objetivo do aluno:" campo2="Altura:" campo3="Experiencia:" campo4="Peso" campo5="Condicoes especiais:" campo6="Indicacao:" className="formsADC"/>
           </Forms>
         </div>
       )}

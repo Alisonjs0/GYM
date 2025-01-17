@@ -32,3 +32,7 @@
     transition: .5s;
     transform: scale(1.04);
 }
+
+.formsGeral form {
+    background: red;
+}
