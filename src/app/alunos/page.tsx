@@ -14,6 +14,21 @@ import { IoIosClose } from "react-icons/io";
 const page = () => {
   const [stage, setStage] = useState("alunos");
 
+  const [nome, setNome] = useState("");
+  const [data, setData] = useState("");
+  const [sexo, setSexo] = useState("");
+  const [tel, setTel] = useState("");
+  const [plano, setPlano] = useState("");
+
+  // Informacoes Opcionais
+  const [objt, setObjt] = useState("");
+  const [altura, setAltura] = useState("");
+  const [exp, setExp] = useState("");
+  const [peso, setPeso] = useState("");
+  const [condicoes, setCondicoes] = useState("");
+  const [indicacao, setIndicacao] = useState("");
+
+
   return (
     <>
       {stage === "alunos" && (
@@ -55,9 +70,47 @@ const page = () => {
       {stage === "cadastrar" && (
         <div className={`${styles.container} relative`}>
           <h1 className="text-[#F4F4F5] text-2xl mt-12">Cadastrar Aluno:</h1>
-          <p onClick={() => setStage("alunos")} className="text-[#f4f4f5] text-3xl cursor-pointer absolute top-0 right-0"><IoIosClose /></p>
-          <Forms campo1="Nome:" campo2="Data de Nascimento:" campo3="Genero:" campo4="Telefone:" campo5="Plano:" button="Cadastrar Aluno" className="formsGeral">
-            <FormsAdc campo1="Objetivo do aluno:" campo2="Altura:" campo3="Experiencia:" campo4="Peso" campo5="Condicoes especiais:" campo6="Indicacao:" className="formsADC"/>
+          <p
+            onClick={() => setStage("alunos")}
+            className="text-[#f4f4f5] text-3xl cursor-pointer absolute top-0 right-0"
+          >
+            <IoIosClose />
+          </p>
+          <Forms
+            campo1="Nome:"
+            campo2="Data de Nascimento:"
+            campo3="Genero:"
+            campo4="Telefone:"
+            campo5="Plano:"
+            button="Cadastrar Aluno"
+            className="formsGeral"
+            setNome={setNome}
+            setData={setData}
+            setSexo={setSexo}
+            setTel={setTel}
+            setPlano={setPlano}
+          >
+            <FormsAdc
+              campo1="Objetivo do aluno:"
+              campo2="Altura:"
+              campo3="Experiencia:"
+              campo4="Peso"
+              campo5="Condicoes especiais:"
+              campo6="Indicacao:"
+              className="formsADC"
+              objt={objt}
+              setObjt={setObjt}
+              altura={altura}
+              setAltura={setAltura}
+              exp={exp}
+              setExp={setExp}
+              peso={peso}
+              setPeso={setPeso}
+              condicoes={condicoes}
+              setCondicoes={setCondicoes}
+              indicacao={indicacao}
+              setIndicacao={setIndicacao}
+            />
           </Forms>
         </div>
       )}

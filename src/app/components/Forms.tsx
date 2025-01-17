@@ -1,5 +1,3 @@
-import React from "react";
-
 export interface FormProps {
   campo1: string;
   campo2: string;
@@ -9,24 +7,32 @@ export interface FormProps {
   children?: React.ReactNode;
   button: string;
   className?: string;
+
+  setNome: React.Dispatch<React.SetStateAction<string>>;
+  setData: React.Dispatch<React.SetStateAction<string>>;
+  setSexo: React.Dispatch<React.SetStateAction<string>>
+  setTel: React.Dispatch<React.SetStateAction<string>>;
+  setPlano: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Forms = (props: FormProps) => {
+
   return (
     <div className="mt-3">
       <form className="text-[#F4F4F5] flex flex-col gap-y-2">
         <label className="flex flex-col">
           <span>{props.campo1}</span>
-          <input type="text" />
+          <input type="text" onChange={(e) => props.setNome(e.target.value)} />
         </label>
         <div className="flex justify-between gap-4">
           <label className="flex flex-col w-3/4">
             <span>{props.campo2}</span>
-            <input type="date" />
+            <input type="date" onChange={(e) => props.setData(e.target.value)} />
           </label>
           <label className="flex flex-col w-1/2">
             <span>{props.campo3}</span>
-            <select>
+            <select onChange={(e) => props.setSexo(e.target.value)}>
+              <option value="">Selecione</option>
               <option value="masc">Masculino</option>
               <option value="fem">Feminino</option>
             </select>
@@ -35,11 +41,12 @@ const Forms = (props: FormProps) => {
         <div className="flex justify-between gap-4">
           <label className="flex flex-col w-3/4">
             <span>{props.campo4}</span>
-            <input type="tel" />
+            <input type="tel" onChange={(e) => props.setTel(e.target.value)} />
           </label>
           <label className="flex flex-col w-1/2">
             <span>{props.campo5}</span>
-            <select>
+            <select onChange={(e) => props.setPlano(e.target.value)}>
+              <option value="">Selecione</option>
               <option value="mensal">Mensal</option>
               <option value="trimestral">Trimestral</option>
               <option value="semestral">Semestral</option>
