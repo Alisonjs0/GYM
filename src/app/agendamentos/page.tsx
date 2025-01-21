@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import ListInfo from "../components/ListInfo";
 import Search from "../components/search";
-import Form from "../components/Forms"
+import Form from "../components/Forms";
 
 import styles from "../styles/alunos.module.css";
 import MenuList from "../components/MenuList";
@@ -51,7 +51,29 @@ const page = () => {
       {stage === "cadastro" && (
         <div className={styles.container}>
           <h1 className="text-[#F4F4F5] text-2xl mt-12">Novo Agendamento:</h1>
-          <Form campo1="Nome" campo2="Data do agendamento:" campo3="Horario:" campo4="Servico agendado:" campo5="Responsavel" button="Novo Agendamento"/>
+          <Form
+            campo1="Nome"
+            campo2="Data do agendamento:"
+            campo3="Horario:"
+            campo4="Servico agendado:"
+            campo5="Responsavel"
+            button="Novo Agendamento"
+            onSubmit={function (data: {
+              nome: string;
+              data: string;
+              sexo: string;
+              tel: string;
+              plano: string;
+              objt?: string;
+              altura?: string;
+              exp?: string;
+              peso?: string;
+              condicoes?: string;
+              indicacao?: string;
+            }): void {
+              throw new Error("Function not implemented.");
+            }}
+          />
         </div>
       )}
     </>

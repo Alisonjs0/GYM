@@ -8,9 +8,18 @@ import styles from "../styles/alunos.module.css";
 import MenuList from "../components/MenuList";
 import Forms from "../components/Forms";
 
+import { getData } from "@/data/data";
+
 import { IoIosClose } from "react-icons/io";
 
 const page = () => {
+  const {newAluno, total} = getData()
+  const addAluno = () => {
+    console.log(total)
+    newAluno()
+        console.log(total)
+  }
+  
   const [stage, setStage] = useState("alunos");
   const [formData, setFormData] = useState<{ 
     nome: string; data: string; sexo: string; tel: string; plano: string;
@@ -51,6 +60,7 @@ const page = () => {
     <>
       {stage === "alunos" && (
         <div className={`${styles.container} relative`}>
+          <button className="bg-[#332280] text-[#F4F4F5]" onClick={addAluno}>askudjb</button>
           <h1 className="text-[#F4F4F5] text-3xl mt-12">Alunos:</h1>
           <div className="relative">
             <Search className={styles.search} />

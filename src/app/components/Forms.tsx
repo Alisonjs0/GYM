@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import FormsAdc from "./FormsAdc";
 import { usePathname } from "next/navigation";
 
+import { getData } from "@/data/data";
+
 export interface FormProps {
   campo1: string;
   campo2: string;
@@ -26,6 +28,8 @@ export interface FormProps {
 }
 
 const Forms = (props: FormProps) => {
+  const { newAluno } = getData();
+
   const pathname = usePathname();
 
   const [nome, setNome] = useState("");
@@ -72,6 +76,7 @@ const Forms = (props: FormProps) => {
       return
     }
 
+    newAluno()
     props.onSubmit({ 
       nome, 
       data, 

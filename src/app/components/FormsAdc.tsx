@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { getData } from "@/data/data";
 
 export interface FormAdcProps {
   campo1: string;
@@ -21,6 +22,7 @@ export interface FormAdcProps {
 }
 
 const FormsAdc = (props: FormAdcProps) => {
+  const { newAluno } = getData();
   // Informacoes opcionais
   const [objt, setObjt] = useState("");
   const [altura, setAltura] = useState("");
