@@ -1,7 +1,5 @@
-import { useState } from "react"
-
 export function getData() {
-    const [total, setTotal] = useState(0);
+    let total = 0
     const data = [
         { month: "January", "Alunos Matriculados": 186, "Desistencias": 80, valor: 186 },
         { month: "February", "Alunos Matriculados": 305, "Desistencias": 200, valor: 305 },
@@ -16,14 +14,14 @@ export function getData() {
         return total + (ativos > 0 ? ativos : 0);
     }, 0)
 
-    setTotal(totAtivos)
+    total = totAtivos
 
     function newAluno() {
-        setTotal(prevTotal => prevTotal + 1);
+        total += 1
     }
 
     function desistencia() {
-        setTotal(prevTotal => (prevTotal > 0 ? prevTotal - 1 : 0));
+        total -= 1
     }
     
     return { data, total, newAluno, desistencia }
