@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import ListInfo from "../components/ListInfo";
 import Search from "../components/search";
 
@@ -8,16 +8,21 @@ import styles from "../styles/alunos.module.css";
 import MenuList from "../components/MenuList";
 import Forms from "../components/Forms";
 
-import { getData } from "@/data/data";
+import { DataContext } from "@/context/dataContext";
 
 import { IoIosClose } from "react-icons/io";
 
 const page = () => {
-  const {newAluno, total} = getData()
+  const context = useContext(DataContext)
+  if (!context) {
+    return <p>Contexto não disponível!</p>;
+  }
+  
+  const { total, newAluno } = context
   const addAluno = () => {
     console.log(total)
     newAluno()
-        console.log(total)
+    console.log(total)
   }
   
   const [stage, setStage] = useState("alunos");
