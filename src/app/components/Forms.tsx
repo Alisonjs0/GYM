@@ -85,6 +85,8 @@ const Forms = (props: FormProps) => {
       plano, 
       ...formDataAdc 
     });
+
+    newAluno()
   };
 
   return (

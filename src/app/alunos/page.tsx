@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useLogin } from "@/hooks/useLogin";
+
 import ListInfo from "../components/ListInfo";
 import Search from "../components/search";
 
@@ -10,47 +12,84 @@ import Forms from "../components/Forms";
 
 import { DataContext } from "@/context/dataContext";
 
+import { useInsertDocument } from "@/hooks/useInsertDocument";
+
 import { IoIosClose } from "react-icons/io";
 
 const page = () => {
-  const context = useContext(DataContext)
+  const context = useContext(DataContext);
   if (!context) {
-    return <p>Contexto não disponível!</p>;
+    throw new Error("Contexto DataContext não foi fornecido.");
   }
-  
-  const { total, newAluno } = context
+
+  const { insertDocument, response } = useInsertDocument();
+
+  const { total, newAluno } = context;
   const addAluno = () => {
-    console.log(total)
-    newAluno()
-    console.log(total)
-  }
-  
+    console.log(formData);
+    if (
+      !formData.nome ||
+      !formData.data ||
+      !formData.sexo ||
+      !formData.tel ||
+      !formData.plano
+    ) {
+      console.log("Preencha todos os campos obrigatórios.");
+      return;
+    }
+    newAluno();
+    insertDocument(formData);
+  };
+
   const [stage, setStage] = useState("alunos");
-  const [formData, setFormData] = useState<{ 
-    nome: string; data: string; sexo: string; tel: string; plano: string;
-    objt?: string; altura?: string; exp?: string; peso?: string; condicoes?: string; indicacao?: string;
+  const [formData, setFormData] = useState<{
+    nome: string;
+    data: string;
+    sexo: string;
+    tel: string;
+    plano: string;
+    objt?: string;
+    altura?: string;
+    exp?: string;
+    peso?: string;
+    condicoes?: string;
+    indicacao?: string;
   }>({
     nome: "",
     data: "",
     sexo: "",
     tel: "",
     plano: "",
-
     objt: "",
     altura: "",
     exp: "",
     peso: "",
     condicoes: "",
     indicacao: "",
-  })
+  });
 
-
-  const handleFormSubmit = (data: {nome: string; data: string; sexo: string; tel: string; plano: string; objt?: string; altura?: string; exp?: string; peso?: string; condicoes?: string; indicacao?: string;}) => {
-      setFormData((prevData) => ({
-        ...prevData,
-        ...data
-      }));
-  }
+  const handleFormSubmit = (data: {
+    nome: string;
+    data: string;
+    sexo: string;
+    tel: string;
+    plano: string;
+    objt?: string;
+    altura?: string;
+    exp?: string;
+    peso?: string;
+    condicoes?: string;
+    indicacao?: string;
+  }) => {
+    addAluno();
+    setFormData((prevData) => ({
+      ...prevData,
+      ...data,
+    }));
+    insertDocument({
+      ...formData, ...data
+    });
+  };
 
   // Informacoes Opcionais
 
@@ -60,12 +99,30 @@ const page = () => {
   const [condicoes, setCondicoes] = useState("");
   const [indicacao, setIndicacao] = useState("");
 
+  const { isLogged, redirect, hasRedirected } = useLogin();
+
+  useEffect(() => {
+    if (isLogged === false && !hasRedirected) {
+      redirect();
+    }
+  }, [isLogged, hasRedirected, redirect]);
+
+  if (!isLogged) {
+    return (
+      <div className="w-full  h-full text-[#F4F4F5] m-auto flex flex-col justify-center items-center">
+        <p>Você precisa estar logado para acessar essa página.</p>
+        <p>Redirecionando para a pagina de login...</p>
+      </div>
+    );
+  }
 
   return (
     <>
       {stage === "alunos" && (
         <div className={`${styles.container} relative`}>
-          <button className="bg-[#332280] text-[#F4F4F5]" onClick={addAluno}>askudjb</button>
+          <button className="bg-[#332280] text-[#F4F4F5]" onClick={addAluno}>
+            askudjb
+          </button>
           <h1 className="text-[#F4F4F5] text-3xl mt-12">Alunos:</h1>
           <div className="relative">
             <Search className={styles.search} />
@@ -116,11 +173,11 @@ const page = () => {
             campo4="Telefone:"
             campo5="Plano:"
             button="Cadastrar Aluno"
-            onSubmit={handleFormSubmit}
-          >
-          </Forms>
+            onSubmit={(data) => handleFormSubmit(data)}
+          ></Forms>
         </div>
       )}
+      {response.error && console.log(response.error)}
     </>
   );
 };

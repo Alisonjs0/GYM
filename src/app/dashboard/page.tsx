@@ -15,8 +15,6 @@ const page = () => {
 
     const {isLogged, redirect, hasRedirected} = useLogin();
 
-    console.log(isLogged, hasRedirected);
-
     useEffect(() => {
       if (isLogged === false && !hasRedirected) {
         redirect();

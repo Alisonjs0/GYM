@@ -16,8 +16,6 @@ export default function ClientWrapper() {
     }
   }, [hideNavBar]);
 
-  console.log("teste", isLogged);
-
   if (isLogged === null) {
     return null;
   }

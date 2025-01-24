@@ -43,7 +43,6 @@ export default function ListInfo({
         setStatusColor("text-[#585858]");
         break
     }
-    console.log(status, valor)
   };
   return (
     <div

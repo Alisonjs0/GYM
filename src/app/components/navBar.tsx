@@ -14,7 +14,6 @@ import Link from "next/link";
 const NavBar = () => {
 
   const pathname = usePathname();
-  console.log(pathname);
 
   const menuItens = [
     {id: "dashboard", label: "Dashboard", path: "/dashboard", icon: <MdDashboard className={styles.icon}/>},
