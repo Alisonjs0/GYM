@@ -3,6 +3,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useLogin } from "@/hooks/useLogin";
 
+import Swal from "sweetalert2";
+
 import ListInfo from "../components/ListInfo";
 import Search from "../components/search";
 
@@ -18,15 +20,28 @@ import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 import { IoIosClose } from "react-icons/io";
 
 interface Aluno {
-  id: string; // Ou number, dependendo de como o ID é gerado
+  id: string;
   nome: string;
   tel: string;
   plano: string;
   status: string;
 }
 
+interface FormData {
+  nome: string;
+  data: string;
+  sexo: string;
+  tel: string;
+  plano: string;
+  objt?: string;
+  altura?: string;
+  exp?: string;
+  peso?: string;
+  condicoes?: string;
+  indicacao?: string;
+}
 
-const page = () => {
+const Page: React.FC = () => {
   const context = useContext(DataContext);
   if (!context) {
     throw new Error("Contexto DataContext não foi fornecido.");
@@ -34,23 +49,25 @@ const page = () => {
 
   const { insertDocument, response } = useInsertDocument("alunos");
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState<string>("");
   const { documents: alunos, loading } = useFetchDocuments("alunos");
 
-  const [stage, setStage] = useState("alunos");
-  const [formData, setFormData] = useState<{
-    nome: string;
-    data: string;
-    sexo: string;
-    tel: string;
-    plano: string;
-    objt?: string;
-    altura?: string;
-    exp?: string;
-    peso?: string;
-    condicoes?: string;
-    indicacao?: string;
-  }>({
+  const [stage, setStage] = useState<"alunos" | "cadastrar">("alunos");
+
+  const showAlert = () => {
+    Swal.fire({
+      title: "Alerta!",
+      text: "Aluno cadastrado com sucesso.",
+      icon: "success",
+      confirmButtonText: "Ok",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setStage("alunos");
+      }
+    });
+  };
+
+  const [formData, setFormData] = useState<FormData>({
     nome: "",
     data: "",
     sexo: "",
@@ -64,19 +81,7 @@ const page = () => {
     indicacao: "",
   });
 
-  const handleFormSubmit = (data: {
-    nome: string;
-    data: string;
-    sexo: string;
-    tel: string;
-    plano: string;
-    objt?: string;
-    altura?: string;
-    exp?: string;
-    peso?: string;
-    condicoes?: string;
-    indicacao?: string;
-  }) => {
+  const handleFormSubmit = (data: FormData) => {
     setFormData((prevData) => ({
       ...prevData,
       ...data,
@@ -84,7 +89,9 @@ const page = () => {
     insertDocument({
       ...formData,
       ...data,
+      status: "Pendente",
     });
+    showAlert();
   };
 
   const { isLogged, redirect, hasRedirected } = useLogin();
@@ -97,9 +104,9 @@ const page = () => {
 
   if (!isLogged) {
     return (
-      <div className="w-full  h-full text-[#F4F4F5] m-auto flex flex-col justify-center items-center">
-        <p>Você precisa estar logado para acessar essa página.</p>
-        <p>Redirecionando para a pagina de login...</p>
+      <div className="w-full h-full text-[#F4F4F5] m-auto flex flex-col justify-center items-center">
+        <p>Você precisa estar logado para acessar essa página.</p>
+        <p>Redirecionando para a página de login...</p>
       </div>
     );
   }
@@ -119,15 +126,16 @@ const page = () => {
                 status="Status"
               />
               {loading && <p>Carregando...</p>}
-              {alunos && alunos.map((aluno: Aluno) => (
-                <ListInfo
-                  key={aluno.id}
-                  nome={aluno.nome}
-                  contato={aluno.tel}
-                  plano={aluno.plano}
-                  status={aluno.status}
-                />
-              ))}
+              {alunos &&
+                alunos.map((aluno) => (
+                  <ListInfo
+                    key={aluno.id}
+                    nome={aluno.nome}
+                    contato={aluno.tel}
+                    plano={aluno.plano}
+                    status={aluno.status}
+                  />
+                ))}
             </div>
             <button
               className={`bg-[#332280] text-[#F4F4F5] px-4 py-2 rounded-lg fixed bottom-12 right-12 z-20 drop-shadow-xl transition-transform hover:scale-105`}
@@ -154,8 +162,8 @@ const page = () => {
             campo4="Telefone:"
             campo5="Plano:"
             button="Cadastrar Aluno"
-            onSubmit={(data) => handleFormSubmit(data)}
-          ></Forms>
+            onSubmit={(data: FormData) => handleFormSubmit(data)}
+          />
         </div>
       )}
       {response.error && console.log(response.error)}
@@ -163,4 +171,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

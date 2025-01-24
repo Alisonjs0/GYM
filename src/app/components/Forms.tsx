@@ -56,6 +56,19 @@ const Forms = (props: FormProps) => {
     indicacao: "",
   });
 
+  const formatDate = (dateString: string) => {
+    const dateObj = new Date(dateString);
+    const day = dateObj.getDate().toString().padStart(2, "0");
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+    const year = dateObj.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  }
+
+  const handleChangeData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData(formatDate(e.target.value));
+  };
+
   const handleFormSubmitAdc = (dataAdc: { 
     objt: string; 
     altura: string; 
@@ -64,6 +77,7 @@ const Forms = (props: FormProps) => {
     condicoes: string; 
     indicacao: string; 
   }) => {
+    setData(data)
     setFormDataAdc((prevData) => ({
       ...prevData,
       ...dataAdc,
@@ -99,7 +113,7 @@ const Forms = (props: FormProps) => {
         <div className="flex justify-between gap-4">
           <label className="flex flex-col w-3/4">
             <span>{props.campo2}</span>
-            <input type="date" onChange={(e) => setData(e.target.value)} />
+            <input type="date" onChange={handleChangeData} />
           </label>
           <label className="flex flex-col w-1/2">
             <span>{props.campo3}</span>
@@ -119,10 +133,10 @@ const Forms = (props: FormProps) => {
             <span>{props.campo5}</span>
             <select onChange={(e) => setPlano(e.target.value)}>
               <option value="">Selecione</option>
-              <option value="mensal">Mensal</option>
-              <option value="trimestral">Trimestral</option>
-              <option value="semestral">Semestral</option>
-              <option value="anual">Anual</option>
+              <option value="Mensal">Mensal</option>
+              <option value="Trimestral">Trimestral</option>
+              <option value="Semestral">Semestral</option>
+              <option value="Anual">Anual</option>
             </select>
           </label>
         </div>
