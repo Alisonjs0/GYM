@@ -13,8 +13,18 @@ import Forms from "../components/Forms";
 import { DataContext } from "@/context/dataContext";
 
 import { useInsertDocument } from "@/hooks/useInsertDocument";
+import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 
 import { IoIosClose } from "react-icons/io";
+
+interface Aluno {
+  id: string; // Ou number, dependendo de como o ID é gerado
+  nome: string;
+  tel: string;
+  plano: string;
+  status: string;
+}
+
 
 const page = () => {
   const context = useContext(DataContext);
@@ -22,24 +32,10 @@ const page = () => {
     throw new Error("Contexto DataContext não foi fornecido.");
   }
 
-  const { insertDocument, response } = useInsertDocument();
+  const { insertDocument, response } = useInsertDocument("alunos");
 
-  const { total, newAluno } = context;
-  const addAluno = () => {
-    console.log(formData);
-    if (
-      !formData.nome ||
-      !formData.data ||
-      !formData.sexo ||
-      !formData.tel ||
-      !formData.plano
-    ) {
-      console.log("Preencha todos os campos obrigatórios.");
-      return;
-    }
-    newAluno();
-    insertDocument(formData);
-  };
+  const [query, setQuery] = useState("");
+  const { documents: alunos, loading } = useFetchDocuments("alunos");
 
   const [stage, setStage] = useState("alunos");
   const [formData, setFormData] = useState<{
@@ -81,23 +77,15 @@ const page = () => {
     condicoes?: string;
     indicacao?: string;
   }) => {
-    addAluno();
     setFormData((prevData) => ({
       ...prevData,
       ...data,
     }));
     insertDocument({
-      ...formData, ...data
+      ...formData,
+      ...data,
     });
   };
-
-  // Informacoes Opcionais
-
-  const [altura, setAltura] = useState("");
-  const [exp, setExp] = useState("");
-  const [peso, setPeso] = useState("");
-  const [condicoes, setCondicoes] = useState("");
-  const [indicacao, setIndicacao] = useState("");
 
   const { isLogged, redirect, hasRedirected } = useLogin();
 
@@ -120,9 +108,6 @@ const page = () => {
     <>
       {stage === "alunos" && (
         <div className={`${styles.container} relative`}>
-          <button className="bg-[#332280] text-[#F4F4F5]" onClick={addAluno}>
-            askudjb
-          </button>
           <h1 className="text-[#F4F4F5] text-3xl mt-12">Alunos:</h1>
           <div className="relative">
             <Search className={styles.search} />
@@ -133,20 +118,16 @@ const page = () => {
                 plano="Plano"
                 status="Status"
               />
-              <ListInfo
-                className={styles.list}
-                nome="Alison Jose Serafim de Lima"
-                contato="(81) 991226762"
-                plano="Mensal"
-                status="Pendente"
-              />
-              <ListInfo
-                className={styles.list}
-                nome="Alison Jose Serafim de Lima"
-                contato="(81) 991226762"
-                plano="Trimestral"
-                status="Ativo"
-              />
+              {loading && <p>Carregando...</p>}
+              {alunos && alunos.map((aluno: Aluno) => (
+                <ListInfo
+                  key={aluno.id}
+                  nome={aluno.nome}
+                  contato={aluno.tel}
+                  plano={aluno.plano}
+                  status={aluno.status}
+                />
+              ))}
             </div>
             <button
               className={`bg-[#332280] text-[#F4F4F5] px-4 py-2 rounded-lg fixed bottom-12 right-12 z-20 drop-shadow-xl transition-transform hover:scale-105`}
