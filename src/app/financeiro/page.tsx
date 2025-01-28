@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useLogin } from '@/hooks/useLogin';
 import styles from "../styles/financeiro.module.css"
 
+
 const page = () => {
   const {isLogged, redirect, hasRedirected} = useLogin();
   
@@ -21,6 +22,8 @@ const page = () => {
           </div>
         );
       }
+
+  
   return (
     <div className={styles.container}>
         <h1 className='text-[#F4F4F5] text-3xl mt-12'>Financeiro:</h1>

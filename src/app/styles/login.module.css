@@ -22,8 +22,12 @@
     background-color: #232241;
     color: #E8F1F3;
     font-size: 1.2rem;
-    outline: none;
 }
+
+input:focus {
+    outline: 2px solid #332280;
+    outline-offset: 2px;
+  }
 
 .form button {
     background: #332280;

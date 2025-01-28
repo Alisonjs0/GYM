@@ -13,7 +13,7 @@ import {
 
 interface Document {
   id: string;
-  [key: string]: any; // Permite campos dinâmicos nos documentos
+  [key: string]: any; 
 }
 
 export const useFetchDocuments = (
