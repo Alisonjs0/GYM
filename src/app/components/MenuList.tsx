@@ -1,5 +1,3 @@
-import { ListInfoProps } from "./ListInfo";
-
 interface MenuListProps {
     nome: string;
     contato: string;
