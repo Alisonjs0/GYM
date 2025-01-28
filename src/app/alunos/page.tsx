@@ -3,6 +3,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useLogin } from "@/hooks/useLogin";
 
+import { v4 as uuidv4 } from 'uuid';
+
 import Swal from "sweetalert2";
 
 import ListInfo from "../components/ListInfo";
@@ -32,6 +34,7 @@ interface FormData {
   condicoes?: string;
   indicacao?: string;
 }
+
 
 const Page = () => {
   const context = useContext(DataContext);
@@ -80,6 +83,7 @@ const Page = () => {
     insertDocument({
       ...formData,
       ...data,
+      id: uuidv4(),
       status: "Pendente",
     });
     showAlert();
@@ -121,6 +125,7 @@ const Page = () => {
                 alunos.map((aluno) => (
                   <ListInfo
                     key={aluno.id}
+                    id={aluno.id}
                     nome={aluno.nome}
                     contato={aluno.tel}
                     plano={aluno.plano}
