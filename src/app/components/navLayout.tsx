@@ -9,12 +9,14 @@ export default function ClientWrapper() {
   const pathname = usePathname();
   const hideNavBar = pathname === "/";
 
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedIsLogged = sessionStorage.getItem("isLogged");
       setIsLogged(storedIsLogged === "true");
     }
   }, [hideNavBar]);
+
 
   if (isLogged === null) {
     return null;
