@@ -15,15 +15,19 @@ export interface FormProps {
   onSubmit: (data: {
     nome: string;
     data: string;
-    sexo: string;
-    tel: string;
-    plano: string;
+    sexo?: string;
+    tel?: string;
+    plano?: string;
     objt?: string;
     altura?: string;
     exp?: string;
     peso?: string;
     condicoes?: string;
     indicacao?: string;
+
+    horario?: string;
+    servico?: string;
+    responsavel?: string;
   }) => void;
 }
 
@@ -38,14 +42,18 @@ const Forms = (props: FormProps) => {
   const [tel, setTel] = useState("");
   const [plano, setPlano] = useState("");
 
-  const [salvo, setSalvo] = useState(true)
+  const [horario, setHorario] = useState("");
+  const [servico, setServico] = useState("");
+  const [responsavel, setResponsavel] = useState("");
 
-  const [formDataAdc, setFormDataAdc] = useState<{ 
-    objt: string; 
-    altura: string; 
-    exp: string; 
-    peso: string; 
-    condicoes: string; 
+  const [salvo, setSalvo] = useState(true);
+
+  const [formDataAdc, setFormDataAdc] = useState<{
+    objt: string;
+    altura: string;
+    exp: string;
+    peso: string;
+    condicoes: string;
     indicacao: string;
   }>({
     objt: "",
@@ -63,21 +71,21 @@ const Forms = (props: FormProps) => {
     const year = dateObj.getFullYear();
 
     return `${day}/${month}/${year}`;
-  }
+  };
 
   const handleChangeData = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData(formatDate(e.target.value));
   };
 
-  const handleFormSubmitAdc = (dataAdc: { 
-    objt: string; 
-    altura: string; 
-    exp: string; 
-    peso: string; 
-    condicoes: string; 
-    indicacao: string; 
+  const handleFormSubmitAdc = (dataAdc: {
+    objt: string;
+    altura: string;
+    exp: string;
+    peso: string;
+    condicoes: string;
+    indicacao: string;
   }) => {
-    setData(data)
+    setData(data);
     setFormDataAdc((prevData) => ({
       ...prevData,
       ...dataAdc,
@@ -87,20 +95,28 @@ const Forms = (props: FormProps) => {
   const handleSubmit = () => {
     if (salvo == false) {
       window.alert("Por favor, salve as informações adicionais.");
-      return
+      return;
     }
 
-    newAluno()
-    props.onSubmit({ 
-      nome, 
-      data, 
-      sexo, 
-      tel, 
-      plano, 
-      ...formDataAdc 
+    props.onSubmit({
+      nome,
+      data,
+      sexo,
+      tel,
+      plano,
+      ...formDataAdc,
+    });
+  };
+
+  const handleAgendamentoSubmit = () => {
+    props.onSubmit({
+      nome,
+      data,
+      horario,
+      servico,
+      responsavel
     });
 
-    newAluno()
   };
 
   return (
@@ -115,21 +131,29 @@ const Forms = (props: FormProps) => {
             <span>{props.campo2}</span>
             <input type="date" onChange={handleChangeData} />
           </label>
-          <label className="flex flex-col w-1/2">
-            <span>{props.campo3}</span>
-            <select onChange={(e) => setSexo(e.target.value)}>
-              <option value="">Selecione</option>
-              <option value="masc">Masculino</option>
-              <option value="fem">Feminino</option>
-            </select>
-          </label>
+          {pathname === "/alunos" ? (
+            <label className="flex flex-col w-1/2">
+              <span>{props.campo3}</span>
+              <select onChange={(e) => setSexo(e.target.value)}>
+                <option value="">Selecione</option>
+                <option value="masc">Masculino</option>
+                <option value="fem">Feminino</option>
+              </select>
+            </label>
+          ) : (
+            <label className="flex flex-col w-1/2">
+              <span>{props.campo3}</span>
+              <input type="text" onChange={(e) => setHorario(e.target.value)} />
+            </label>
+          )}
         </div>
         <div className="flex justify-between gap-4">
           <label className="flex flex-col w-3/4">
             <span>{props.campo4}</span>
-            <input type="tel" onChange={(e) => setTel(e.target.value)} />
+            <input type="tel" onChange={(e) => {pathname === "/alunos" ? setTel(e.target.value) : setServico(e.target.value)}} />
           </label>
-          <label className="flex flex-col w-1/2">
+          {pathname === "/alunos" ? (
+            <label className="flex flex-col w-1/2">
             <span>{props.campo5}</span>
             <select onChange={(e) => setPlano(e.target.value)}>
               <option value="">Selecione</option>
@@ -139,9 +163,15 @@ const Forms = (props: FormProps) => {
               <option value="Anual">Anual</option>
             </select>
           </label>
+          ) : (
+            <label className="flex flex-col w-1/2">
+              <span>{props.campo5}</span>
+              <input type="text" onChange={(e) => setResponsavel(e.target.value)} />
+            </label>
+          )}
         </div>
       </form>
-      
+
       {pathname === "/alunos" && (
         <FormsAdc
           campo1="Objetivo do aluno:"
@@ -155,11 +185,13 @@ const Forms = (props: FormProps) => {
           setSalvo={setSalvo}
         />
       )}
-      
+
       <div className="flex justify-end">
         <button
           className={`bg-[#332280] text-[#F4F4F5] px-4 py-2 rounded-lg drop-shadow-xl mt-8 transition-transform hover:scale-105`}
-          onClick={handleSubmit}
+          onClick={
+            pathname === "/alunos" ? handleSubmit : handleAgendamentoSubmit
+          }
         >
           {props.button}
         </button>
