@@ -3,7 +3,6 @@ import FormsAdc from "./FormsAdc";
 import { usePathname } from "next/navigation";
 
 import { getData } from "@/data/data";
-import path from "path";
 
 export interface FormProps {
   campo1: string;
