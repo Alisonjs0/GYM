@@ -2,12 +2,12 @@
 
 import styles from "./styles/login.module.css";
 import { useAuthentication } from "@/hooks/useAuthentication";
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
+  const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
   const [isLogged, setIsLogged] = useState(false);
@@ -23,11 +23,15 @@ export default function Login() {
 
   const { login, loading, error } = useAuthentication();
 
+  if (user == "1234") {
+    setUser("alisonserafim.tec@gmail.com");
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const data = {
-      email: email,
+      email: user,
       password: password,
     };
     await login(data);
@@ -44,10 +48,10 @@ export default function Login() {
       <form className={styles.form} onSubmit={handleSubmit}>
         <h1>Login</h1>
         <input
-          type="email"
+          type="text"
           placeholder="Usuario"
           required
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setUser(e.target.value)}
         />
         <input
           type="password"
