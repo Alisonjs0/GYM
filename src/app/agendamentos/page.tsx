@@ -32,7 +32,7 @@ const page = () => {
   const showAlert = () => {
     Swal.fire({
       title: "Alerta!",
-      text: "Aluno cadastrado com sucesso.",
+      text: "Novo Agendamento Cadastrado!",
       icon: "success",
       confirmButtonText: "Ok",
     }).then((result) => {
@@ -98,6 +98,7 @@ const page = () => {
                 agendamentos.map((agenda) => (
                   <ListInfo
                     className={styles.list}
+                    id={agenda.id}
                     key={agenda.id}
                     nome={agenda.nome}
                     contato={agenda.data}
