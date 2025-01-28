@@ -2,6 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { useLogin } from "@/hooks/useLogin";
+import { useInsertDocument } from "@/hooks/useInsertDocument";
+import { useFetchDocuments } from "@/hooks/useFetchDocuments";
+
+import Swal from "sweetalert2";
 
 import ListInfo from "../components/ListInfo";
 import Search from "../components/search";
@@ -10,25 +14,70 @@ import Form from "../components/Forms";
 import styles from "../styles/alunos.module.css";
 import MenuList from "../components/MenuList";
 
+interface FormData {
+  nome: string;
+  data: string;
+  horario?: string;
+  servico?: string;
+  responsavel?: string;
+}
+
 const page = () => {
   const [stage, setStage] = useState("agenda");
 
-  const {isLogged, redirect, hasRedirected} = useLogin();
+  const { insertDocument, response } = useInsertDocument("agenda");
 
-      useEffect(() => {
-        if (isLogged === false && !hasRedirected) {
-          redirect();
-        }
-      }, [isLogged, hasRedirected, redirect]);
-  
-      if (!isLogged) {
-        return (
-          <div className="w-full  h-full text-[#F4F4F5] m-auto flex flex-col justify-center items-center">
-            <p>Você precisa estar logado para acessar essa página.</p>
-            <p>Redirecionando para a pagina de login...</p>
-          </div>
-        );
+  const { documents: agendamentos, loading } = useFetchDocuments("agenda");
+
+  const showAlert = () => {
+    Swal.fire({
+      title: "Alerta!",
+      text: "Aluno cadastrado com sucesso.",
+      icon: "success",
+      confirmButtonText: "Ok",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setStage("agenda");
       }
+    });
+  };
+
+  const [formData, setFormData] = useState<FormData>({
+    nome: "",
+    data: "",
+    horario: "",
+    servico: "",
+    responsavel: "",
+  });
+
+  const handleFormSubmit = (data: FormData) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      ...data,
+    }));
+    insertDocument({
+      ...formData,
+      ...data,
+    });
+    showAlert();
+  };
+
+  const { isLogged, redirect, hasRedirected } = useLogin();
+
+  useEffect(() => {
+    if (isLogged === false && !hasRedirected) {
+      redirect();
+    }
+  }, [isLogged, hasRedirected, redirect]);
+
+  if (!isLogged) {
+    return (
+      <div className="w-full  h-full text-[#F4F4F5] m-auto flex flex-col justify-center items-center">
+        <p>Você precisa estar logado para acessar essa página.</p>
+        <p>Redirecionando para a pagina de login...</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -44,20 +93,18 @@ const page = () => {
                 plano="Tipo"
                 status="Horario"
               ></MenuList>
-              <ListInfo
-                className={styles.list}
-                nome="Alison Jose Serafim de Lima"
-                contato="26/12/2024"
-                plano="Avaliacao Fisica"
-                status="13:30"
-              />
-              <ListInfo
-                className={styles.list}
-                nome="Alison Jose Serafim de Lima"
-                contato="04/01/2025"
-                plano="Consulta Nutricionista"
-                status="08:20"
-              />
+              {loading && <p>Carregando...</p>}
+              {agendamentos &&
+                agendamentos.map((agenda) => (
+                  <ListInfo
+                    className={styles.list}
+                    key={agenda.id}
+                    nome={agenda.nome}
+                    contato={agenda.data}
+                    plano={agenda.servico}
+                    status={agenda.horario}
+                  />
+                ))}
             </div>
             <button
               onClick={() => setStage("cadastro")}
@@ -78,21 +125,7 @@ const page = () => {
             campo4="Servico agendado:"
             campo5="Responsavel"
             button="Novo Agendamento"
-            onSubmit={function (data: {
-              nome: string;
-              data: string;
-              sexo: string;
-              tel: string;
-              plano: string;
-              objt?: string;
-              altura?: string;
-              exp?: string;
-              peso?: string;
-              condicoes?: string;
-              indicacao?: string;
-            }): void {
-              throw new Error("Function not implemented.");
-            }}
+            onSubmit={(data: FormData) => handleFormSubmit(data)}
           />
         </div>
       )}
