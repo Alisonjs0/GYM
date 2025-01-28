@@ -19,20 +19,12 @@ import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 
 import { IoIosClose } from "react-icons/io";
 
-interface Aluno {
-  id: string;
-  nome: string;
-  tel: string;
-  plano: string;
-  status: string;
-}
-
 interface FormData {
   nome: string;
   data: string;
-  sexo: string;
-  tel: string;
-  plano: string;
+  sexo?: string;
+  tel?: string;
+  plano?: string;
   objt?: string;
   altura?: string;
   exp?: string;
@@ -41,7 +33,7 @@ interface FormData {
   indicacao?: string;
 }
 
-const Page: React.FC = () => {
+const Page = () => {
   const context = useContext(DataContext);
   if (!context) {
     throw new Error("Contexto DataContext não foi fornecido.");
@@ -49,7 +41,6 @@ const Page: React.FC = () => {
 
   const { insertDocument, response } = useInsertDocument("alunos");
 
-  const [query, setQuery] = useState<string>("");
   const { documents: alunos, loading } = useFetchDocuments("alunos");
 
   const [stage, setStage] = useState<"alunos" | "cadastrar">("alunos");
