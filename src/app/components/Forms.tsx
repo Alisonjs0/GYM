@@ -3,6 +3,7 @@ import FormsAdc from "./FormsAdc";
 import { usePathname } from "next/navigation";
 
 import { getData } from "@/data/data";
+import path from "path";
 
 export interface FormProps {
   campo1: string;
@@ -48,14 +49,7 @@ const Forms = (props: FormProps) => {
 
   const [salvo, setSalvo] = useState(true);
 
-  const [formDataAdc, setFormDataAdc] = useState<{
-    objt: string;
-    altura: string;
-    exp: string;
-    peso: string;
-    condicoes: string;
-    indicacao: string;
-  }>({
+  const [formDataAdc, setFormDataAdc] = useState<{}>({
     objt: "",
     altura: "",
     exp: "",
@@ -77,14 +71,33 @@ const Forms = (props: FormProps) => {
     setData(formatDate(e.target.value));
   };
 
-  const handleFormSubmitAdc = (dataAdc: {
-    objt: string;
-    altura: string;
-    exp: string;
-    peso: string;
-    condicoes: string;
-    indicacao: string;
-  }) => {
+  const formatarTelefone = (valor: string): string => {
+    const apenasNumeros = valor.replace(/\D/g, ""); // Remove tudo que não é número
+
+    if (apenasNumeros.length <= 10) {
+      // Formato: (XX) XXXX-XXXX
+      return apenasNumeros.replace(
+        /(\d{0,2})(\d{0,4})(\d{0,4})/,
+        (_, ddd, parte1, parte2) =>
+          [ddd && `(${ddd})`, parte1, parte2].filter(Boolean).join(" ")
+      );
+    } else {
+      // Formato: (XX) XXXXX-XXXX
+      return apenasNumeros.replace(
+        /(\d{0,2})(\d{0,5})(\d{0,4})/,
+        (_, ddd, parte1, parte2) =>
+          [ddd && `(${ddd})`, parte1, parte2].filter(Boolean).join(" ")
+      );
+    }
+  };
+
+  const handleChangeTel = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const valor = e.target.value;
+    const valorFormatado = formatarTelefone(valor); // Formata o telefone em tempo real
+    setTel(valorFormatado); // Atualiza o estado com o valor formatado
+  };
+
+  const handleFormSubmitAdc = (dataAdc: typeof formDataAdc) => {
     setData(data);
     setFormDataAdc((prevData) => ({
       ...prevData,
@@ -108,15 +121,15 @@ const Forms = (props: FormProps) => {
     });
   };
 
-  const handleAgendamentoSubmit = () => {
+  const handleAgendamentoSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     props.onSubmit({
       nome,
       data,
       horario,
       servico,
-      responsavel
+      responsavel,
     });
-
   };
 
   return (
@@ -150,23 +163,34 @@ const Forms = (props: FormProps) => {
         <div className="flex justify-between gap-4">
           <label className="flex flex-col w-3/4">
             <span>{props.campo4}</span>
-            <input type="tel" onChange={(e) => {pathname === "/alunos" ? setTel(e.target.value) : setServico(e.target.value)}} />
+            {pathname === "/alunos" ? (
+              <input type="text" value={tel} maxLength={15} onChange={handleChangeTel} />
+            ) : (
+              <input
+                type="text"
+                value={responsavel}
+                onChange={(e) => setServico(e.target.value)}
+              />
+            )}
           </label>
           {pathname === "/alunos" ? (
             <label className="flex flex-col w-1/2">
-            <span>{props.campo5}</span>
-            <select onChange={(e) => setPlano(e.target.value)}>
-              <option value="">Selecione</option>
-              <option value="Mensal">Mensal</option>
-              <option value="Trimestral">Trimestral</option>
-              <option value="Semestral">Semestral</option>
-              <option value="Anual">Anual</option>
-            </select>
-          </label>
+              <span>{props.campo5}</span>
+              <select onChange={(e) => setPlano(e.target.value)}>
+                <option value="">Selecione</option>
+                <option value="Mensal">Mensal</option>
+                <option value="Trimestral">Trimestral</option>
+                <option value="Semestral">Semestral</option>
+                <option value="Anual">Anual</option>
+              </select>
+            </label>
           ) : (
             <label className="flex flex-col w-1/2">
               <span>{props.campo5}</span>
-              <input type="text" onChange={(e) => setResponsavel(e.target.value)} />
+              <input
+                type="text"
+                onChange={(e) => setResponsavel(e.target.value)}
+              />
             </label>
           )}
         </div>
