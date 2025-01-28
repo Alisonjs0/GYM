@@ -3,7 +3,10 @@
 import { useState, useEffect } from "react";
 import { FaCircle } from "react-icons/fa";
 
+import { useRouter } from "next/navigation";
+
 export interface ListInfoProps {
+  id: string;
   nome: string;
   contato: string;
   plano: string;
@@ -12,6 +15,7 @@ export interface ListInfoProps {
 }
 
 export default function ListInfo({
+  id,
   nome,
   contato,
   plano,
@@ -20,6 +24,8 @@ export default function ListInfo({
 }: ListInfoProps) {
     const [valor, setValor] = useState(false);
     const [statusColor, setStatusColor] = useState("");
+    const router = useRouter();
+
     useEffect(() => {
         handleStatus(status);
       }, [status]);
@@ -44,9 +50,14 @@ export default function ListInfo({
         break
     }
   };
+
+  const handleClick = () => {
+    router.push(`/alunos/${id}`);
+  }
   return (
     <div
       className={`${className} bg-[#232241] flex justify-between px-8 py-4 rounded-xl mb-4 drop-shadow-xl transition-transform hover:scale-105 cursor-pointer`}
+      onClick={handleClick}
     >
       <p className="text-[#F4F4F5] w-1/2">{nome}</p>
       <p className="text-[#F4F4F5] w-1/4">{contato}</p>
