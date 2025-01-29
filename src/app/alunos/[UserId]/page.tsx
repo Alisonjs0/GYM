@@ -10,9 +10,15 @@ import InfoAluno from "@/app/components/InfoAluno";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 
+import { IoIosClose } from "react-icons/io";
+
+import { useRouter } from "next/navigation";
+
 const AlunoPage = () => {
   const { UserId: id } = useParams(); // Captura o id da URL
   const { documents: alunos, loading } = useFetchDocuments("alunos");
+
+  const router = useRouter();
 
   const { isLogged, redirect, hasRedirected } = useLogin();
 
@@ -140,7 +146,8 @@ const AlunoPage = () => {
 
   return (
     <div className="ml-[25vw] mr-[5vw] h-screen overflow-hidden flex items-center text-[#F4F4F5]">
-      <div className="h-[80%] w-[100%] bg-[#232241] rounded-lg flex">
+      <div className="h-[80%] w-[100%] bg-[#232241] rounded-lg flex relative">
+      <IoIosClose className="absolute top-2 right-2 w-10 h-10 cursor-pointer" onClick={() => router.back()}/>
         <div className="w-1/4 border-r border-[#f4f4f521] flex flex-col items-center pt-12 gap-y-2">
           <div className="relative">
             <img
