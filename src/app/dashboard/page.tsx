@@ -50,8 +50,12 @@ const page = () => {
           </span>
         </span>
         <span className="w-[65%] flex flex-col gap-y-8 pb-12">
-          <CaptacaoDeAlunos />
-          <ProgressoFinanceiro />
+          <span>
+            <CaptacaoDeAlunos />
+          </span>
+          <span>
+            <ProgressoFinanceiro />
+          </span>
         </span>
       </div>
     </div>
