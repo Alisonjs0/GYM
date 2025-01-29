@@ -18,18 +18,34 @@ import {
 } from "@/components/ui/card";
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 
+import { useFetchDocuments } from "@/hooks/useFetchDocuments";
+
 import { DataContext } from "@/context/dataContext";
 import { useContext } from "react";
 
-export function TotalDeAlunos() {
+interface Total {
+  title: string;
+  subtitle: string
+  total: number;
+}
+
+export function TotalDeAlunos(props: Total) {
   const context = useContext(DataContext);
   if (!context) {
     return <p>Contexto não disponível!</p>;
   }
 
-  const { total, newAluno } = context;
+  const { documents: alunos, loading } = useFetchDocuments("alunos");
 
-  const chartData = [{ totAtivos: total, fill: "var(--color-safari)" }];
+  let total = 0;
+
+  alunos?.map((aluno) => {
+    if (aluno.status === "Pendente") {
+      total += 1;
+    }
+  });
+
+  const chartData = [{ totAtivos: props.total, fill: "var(--color-safari)" }];
 
   const chartConfig = {
     totAtivos: {
@@ -41,15 +57,15 @@ export function TotalDeAlunos() {
     },
   } satisfies ChartConfig;
   return (
-    <Card className="flex flex-col bg-[#232241] border-none max-h-[500px]">
+    <Card className="flex flex-col bg-[#232241] border-none">
       <CardHeader className="items-center pb-0">
-        <CardTitle className="text-[#F4F4F5]">Total de alunos Ativos</CardTitle>
+        <CardTitle className="text-[#F4F4F5]">{props.title}</CardTitle>
         <CardDescription>Janeiro - Junho 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px] "
+          className="mx-auto aspect-square"
         >
           <RadialBarChart
             data={chartData}
@@ -89,7 +105,7 @@ export function TotalDeAlunos() {
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Alunos Ativos
+                          {props.subtitle}
                         </tspan>
                       </text>
                     );

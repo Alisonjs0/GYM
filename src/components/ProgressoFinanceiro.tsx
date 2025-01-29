@@ -35,9 +35,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function ProgressoFinanceiro() {
+interface Props {
+  className?: string
+}
+
+export function ProgressoFinanceiro(props: Props) {
   return (
-    <Card className="bg-[#232241] border-none">
+    <Card className={`bg-[#232241] border-none ${props.className}`}>
       <CardHeader>
         <CardTitle className="text-[#F4F4F5]">Total arrecado no periodo</CardTitle>
         <CardDescription>Janeiro - Junho 2024</CardDescription>

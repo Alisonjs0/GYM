@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { useLogin } from "@/hooks/useLogin";
 
@@ -32,16 +32,24 @@ const page = () => {
   return (
     <div className={`${styles.container}`}>
       <h1 className={`text-[#F4F4F5] text-3xl my-12`}>Dashboard:</h1>
-      <div className="grid grid-cols-5 grid-rows-8 gap-8">
-        <span className="col-start-1 col-end-3 row-start-1 row-end-4 div1">
-          <TotalDeAlunos />
+      <div className="flex flex-wrap gap-4 justify-between">
+        <span className="w-[32%] flex flex-col gap-y-8">
+          <TotalDeAlunos
+            total={50}
+            title="Total de Alunos Ativos"
+            subtitle="Alunos Ativos"
+          />
+          <TotalDeAlunos
+            total={23}
+            title="Pagamentos Pendentes"
+            subtitle="Pagamentos Pendentes"
+          />
         </span>
-        <span className="col-start-3 col-end-6 row-start-1 row-end-6 div2">
+        <span className="w-[65%] flex flex-col gap-y-8 pb-12">
           <CaptacaoDeAlunos />
-        </span>
-        <span className="col-start-1 col-end-3 row-start-4 row-end-9 div3">
           <ProgressoFinanceiro />
         </span>
+
       </div>
     </div>
   );
