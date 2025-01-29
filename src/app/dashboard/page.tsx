@@ -34,22 +34,25 @@ const page = () => {
       <h1 className={`text-[#F4F4F5] text-3xl my-12`}>Dashboard:</h1>
       <div className="flex flex-wrap gap-4 justify-between">
         <span className="w-[32%] flex flex-col gap-y-8">
-          <TotalDeAlunos
-            total={50}
-            title="Total de Alunos Ativos"
-            subtitle="Alunos Ativos"
-          />
-          <TotalDeAlunos
-            total={23}
-            title="Pagamentos Pendentes"
-            subtitle="Pagamentos Pendentes"
-          />
+          <span>
+            <TotalDeAlunos
+              total={50}
+              title="Total de Alunos Ativos"
+              subtitle="Alunos Ativos"
+            />
+          </span>
+          <span>
+            <TotalDeAlunos
+              total={23}
+              title="Pagamentos Pendentes"
+              subtitle="Pagamentos Pendentes"
+            />
+          </span>
         </span>
         <span className="w-[65%] flex flex-col gap-y-8 pb-12">
           <CaptacaoDeAlunos />
           <ProgressoFinanceiro />
         </span>
-
       </div>
     </div>
   );
