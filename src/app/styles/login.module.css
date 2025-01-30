@@ -13,7 +13,8 @@
 }
 
 .form input {
-    width: 24.875rem;
+    max-width: 100%;
+    min-width: 35%;
     padding: 10px 24px;
     height: 3rem;
     margin-bottom: 1.5rem;
@@ -31,10 +32,12 @@ input:focus {
 
 .form button {
     background: #332280;
-    width: 13.75rem;
+    max-width: 90%;
+    min-width: 20%;
     height: 3rem;
     border: none;
     color: #E8F1F3;
     font-size: 20px;
+    padding: 0 24px;
     border-radius: 10px;
 }
