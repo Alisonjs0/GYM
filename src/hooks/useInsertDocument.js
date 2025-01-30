@@ -21,7 +21,6 @@ const insertReducer = (state, action) => {
 };
 
 export const useInsertDocument = (docCollection) => {
-    console.log("Colecao recebida no hook: ", docCollection);
   const [response, dispatch] = useReducer(insertReducer, initialState);
 
   const [cancelled, setCancelled] = useState(false);

@@ -40,6 +40,7 @@ export const useFetchDocuments = (
         let q: Query<DocumentData>;
 
         // Define a query para buscar os documentos
+
         if (search) {
           q = query(
             collectionRef,
