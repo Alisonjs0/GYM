@@ -12,7 +12,6 @@ export interface ListInfoProps {
   plano: string;
   status: string;
   className?: string;
-  children?: React.ReactNode;
 }
 
 export default function ListInfo({
@@ -22,7 +21,6 @@ export default function ListInfo({
   plano,
   status,
   className,
-  children,
 }: ListInfoProps) {
   const pathname = usePathname();
 
