@@ -142,6 +142,76 @@ const AlunoPage = () => {
       metodoPagamento: "Dinheiro",
       status: "Pago",
     },
+    {
+      id: 5,
+      data: "28/01/2025",
+      valor: 250.0,
+      metodoPagamento: "Dinheiro",
+      status: "Pago",
+    },
+    {
+      id: 4,
+      data: "28/01/2025",
+      valor: 250.0,
+      metodoPagamento: "Dinheiro",
+      status: "Pago",
+    },
+    {
+      id: 5,
+      data: "28/01/2025",
+      valor: 250.0,
+      metodoPagamento: "Dinheiro",
+      status: "Pago",
+    },
+    {
+      id: 1,
+      data: "16/01/2025",
+      valor: 150.0,
+      metodoPagamento: "Cartão de Crédito",
+      status: "Pago",
+    },
+    {
+      id: 2,
+      data: "20/01/2025",
+      valor: 200.0,
+      metodoPagamento: "Transferência Bancária",
+      status: "Pago",
+    },
+    {
+      id: 3,
+      data: "2025/01/25",
+      valor: 120.0,
+      metodoPagamento: "Boleto",
+      status: "Pendente",
+    },
+    {
+      id: 4,
+      data: "28/01/2025",
+      valor: 250.0,
+      metodoPagamento: "Dinheiro",
+      status: "Pago",
+    },
+    {
+      id: 5,
+      data: "28/01/2025",
+      valor: 250.0,
+      metodoPagamento: "Dinheiro",
+      status: "Pago",
+    },
+    {
+      id: 4,
+      data: "28/01/2025",
+      valor: 250.0,
+      metodoPagamento: "Dinheiro",
+      status: "Pago",
+    },
+    {
+      id: 5,
+      data: "28/01/2025",
+      valor: 250.0,
+      metodoPagamento: "Dinheiro",
+      status: "Pago",
+    },
   ];
 
   return (
@@ -186,17 +256,17 @@ const AlunoPage = () => {
             title="Proximo pagamento"
             content={aluno.status !== "ativo" ? dataPagamentoFormatada : "N/A"}
           />
-          <ScrollArea className="mx-4 h-[200px]">
-            <h1 className="flex justify-center">Historico de Pagamentos :</h1>
-            <div className="border border-[#f4f4f521] py-2">
-              <div className="flex justify-between ml-6 mr-10">
+          <h1 className="flex justify-center">Historico de Pagamentos :</h1>
+          <div className="flex justify-between ml-6 mr-6 border border-[#f4f4f521] py-2 px-4 mt-2 w">
                 <p>Data:</p>
                 <p>Valor:</p>
               </div>
-              {historicoPagamentos.map((item) => (
-                <div className="flex justify-between ml-6 mr-10">
+          <ScrollArea className="h-[30%] w-[100%]">
+            <div>
+              {historicoPagamentos.map((item, key) => (
+                <div key={key} className="flex justify-between ml-6 mr-6 border border-[#f4f4f521] py-1 px-4 cursor-pointer">
                   <p>{item.data}</p>
-                  <p>{item.valor}</p>
+                  <p>R$ {item.valor.toFixed(2)}</p>
                 </div>
               ))}
             </div>
