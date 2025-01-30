@@ -3,7 +3,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useLogin } from "@/hooks/useLogin";
 
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 import Swal from "sweetalert2";
 
@@ -35,7 +35,6 @@ interface FormData {
   indicacao?: string;
 }
 
-
 const Page = () => {
   const context = useContext(DataContext);
   if (!context) {
@@ -47,6 +46,8 @@ const Page = () => {
   const { documents: alunos, loading } = useFetchDocuments("alunos");
 
   const [stage, setStage] = useState<"alunos" | "cadastrar">("alunos");
+
+  const [search, setSearch] = useState<string>("");
 
   const showAlert = () => {
     Swal.fire({
@@ -83,7 +84,6 @@ const Page = () => {
     insertDocument({
       ...formData,
       ...data,
-      id: uuidv4(),
       status: "Pendente",
     });
     showAlert();
@@ -112,7 +112,7 @@ const Page = () => {
         <div className={`${styles.container} relative`}>
           <h1 className="text-[#F4F4F5] text-3xl mt-12">Alunos:</h1>
           <div className="relative">
-            <Search className={styles.search} />
+            <Search className={styles.search} setSearch={setSearch} />
             <div>
               <MenuList
                 nome="Nome"
@@ -121,8 +121,27 @@ const Page = () => {
                 status="Status"
               />
               {loading && <p>Carregando...</p>}
-              {alunos &&
-                alunos.map((aluno) => (
+              {alunos
+                ?.filter((aluno) => {
+                  const normalizedSearch = search
+                    .trim()
+                    .replace(/\s+/g, "")
+                    .toLowerCase(); 
+
+                  if (normalizedSearch === "") return true; 
+
+                  return Object.values(aluno).some((valor) => {
+                    if (typeof valor === "string") {
+                      const normalizedValue = valor
+                        .trim()
+                        .replace(/\s+/g, "")
+                        .toLowerCase(); 
+                      return normalizedValue.includes(normalizedSearch); 
+                    }
+                    return false;
+                  });
+                })
+                .map((aluno) => (
                   <ListInfo
                     key={aluno.id}
                     id={aluno.id}
