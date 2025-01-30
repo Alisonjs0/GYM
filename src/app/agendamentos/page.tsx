@@ -25,6 +25,8 @@ interface FormData {
 const page = () => {
   const [stage, setStage] = useState("agenda");
 
+  const [search, setSearch] = useState("");
+
   const { insertDocument, response } = useInsertDocument("agenda");
 
   const { documents: agendamentos, loading } = useFetchDocuments("agenda");
@@ -85,7 +87,7 @@ const page = () => {
         <div className={styles.container}>
           <h1 className="text-[#F4F4F5] text-3xl mt-12">Agendamentos:</h1>
           <div>
-            <Search className={styles.search} />
+            <Search className={styles.search} setSearch={setSearch} />
             <div>
               <MenuList
                 nome="Aluno"
