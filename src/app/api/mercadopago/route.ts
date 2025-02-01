@@ -3,10 +3,10 @@ import { MercadoPagoConfig, Payment } from "mercadopago";
 import { NextResponse, type NextRequest } from "next/server";
 
 const client = new MercadoPagoConfig({
-  accessToken:
-    "APP_USR-806565373522219-012519-b053260932f574be57bb836681f151b4-407875892", // Melhor usar variável de ambiente
+  accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN || "",
   options: { timeout: 5000 },
 });
+
 
 export async function POST(req: NextRequest) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
