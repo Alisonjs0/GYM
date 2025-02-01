@@ -1,15 +1,21 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useLogin } from "@/hooks/useLogin";
 import styles from "../styles/financeiro.module.css";
+
+import { useRouter } from "next/navigation";
+
+import { useLogin } from "@/hooks/useLogin";
 import { useUpdate } from "@/hooks/useUpdate";
 import { useFetchDocuments } from "@/hooks/useFetchDocuments";
+import { usePayment } from "@/hooks/usePayment";
 
 import MenuList from "../components/MenuList";
 import ListInfo from "../components/ListInfo";
 
 const Financeiro = () => {
+  const router = useRouter();
+  const { qrCode, handleChangeInfo } = usePayment();
   const { documents: alunos } = useFetchDocuments("alunos");
   const { setIdAluno, atualizar } = useUpdate();
   const [statusAtualizando, setStatusAtualizando] = useState<string | null>(
@@ -33,6 +39,8 @@ const Financeiro = () => {
     );
   }
 
+
+
   const handleUpdate = async (alunoId: string, statusAtual: string) => {
     const novoStatus = statusAtual !== "Ativo" ? "Ativo" : "Pendente";
     setStatusAtualizando(alunoId);
@@ -49,10 +57,7 @@ const Financeiro = () => {
         alunos
           .filter((aluno) => aluno.status === "Pendente") // Filtro para alunos pendentes
           .map((aluno) => (
-            <div
-              key={aluno.id}
-              className="flex gap-x-4 text-[#F4F4F5] mb-4"
-            >
+            <div key={aluno.id} className="flex gap-x-4 text-[#F4F4F5] mb-4">
               <div className="flex-1">
                 <ListInfo
                   id={aluno.id}
@@ -64,13 +69,22 @@ const Financeiro = () => {
                 />
               </div>
               {aluno.status === "Pendente" && (
-                <button
-                  onClick={() => handleUpdate(aluno.id, aluno.status)}
-                  className="bg-[#332280] text-[#f4f4f4] px-6 rounded-lg"
-                  disabled={statusAtualizando === aluno.id}
-                >
-                  {statusAtualizando === aluno.id ? "Atualizando..." : "Ativar"}
-                </button>
+                <>
+                  <button
+                    onClick={() =>
+                      handleChangeInfo(
+                        aluno.valorPlano,
+                        aluno.nome,
+                        aluno.plano
+                      )
+                    }
+                    className="bg-[#332280] text-[#f4f4f4] px-6 rounded-lg"
+                  >
+                    {statusAtualizando === aluno.id
+                      ? "Atualizando..."
+                      : "Ativar"}
+                  </button>
+                </>
               )}
             </div>
           ))
@@ -78,6 +92,14 @@ const Financeiro = () => {
         <p className="text-[#F4F4F5] text-center mt-4">
           Nenhum aluno encontrado.
         </p>
+      )}
+      {qrCode && (
+        <a
+          href={qrCode}
+          className="bg-[#332280] px-6 py-4 rounded-lg text-[#f4f4f4]"
+        >
+          Realize seu pagamento
+        </a>
       )}
     </div>
   );
