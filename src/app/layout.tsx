@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import "./styles/globals.css";
 
 import { DataContextProvider } from "@/context/dataContext";
-import { AuthProvider } from "@/context/AuthContexto";
 import NavLayout from "./components/navLayout";
-
-import { useLogin } from "@/hooks/useLogin";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,14 +14,12 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <AuthProvider value={{ user: null }}>
           <DataContextProvider>
             <body>
               <NavLayout></NavLayout>
               {children}
             </body>
           </DataContextProvider>
-      </AuthProvider>
     </html>
   );
 }
