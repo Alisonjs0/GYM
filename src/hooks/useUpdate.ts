@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { db } from "../firebase/config";
-import { doc, updateDoc, getDoc, addDoc, collection } from "firebase/firestore";
+import { doc, updateDoc, getDoc, addDoc, collection, arrayUnion } from "firebase/firestore";
 
 type AlunoData = {
   nome?: string;
@@ -8,6 +8,7 @@ type AlunoData = {
   peso?: string;
   plano?: string;
   status?: string;
+  pagamentos?: object;
 };
 
 export const useUpdate = () => {
