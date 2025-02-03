@@ -16,7 +16,7 @@ const NavBar = () => {
   const pathname = usePathname();
 
   const menuItens = [
-    {id: "dashboard", label: "Dashboard", path: "/dashboard", icon: <MdDashboard className={styles.icon}/>},
+    {id: "dashboard", label: "Dashboard", path: "/", icon: <MdDashboard className={styles.icon}/>},
     {id: "alunos", label: "Alunos", path: "/alunos", icon: <HiUserGroup className={styles.icon}/>},
     {id: "agendamentos", label:"Agendamentos", path: "/agendamentos", icon: <FaCalendar className={styles.icon}/>},
     {id: "financeiro", label: "Financeiro", path: "/financeiro", icon: <IoMdWallet className={styles.icon}/>}
