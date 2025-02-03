@@ -7,12 +7,12 @@ import { v4 as uuidv4 } from "uuid";
 
 import Swal from "sweetalert2";
 
-import ListInfo from "../components/ListInfo";
-import Search from "../components/search";
+import ListInfo from "@/app/components/ListInfo";
+import Search from "@/app/components/search";
 
-import styles from "../styles/alunos.module.css";
-import MenuList from "../components/MenuList";
-import Forms from "../components/Forms";
+import styles from "@/app/styles/alunos.module.css";
+import MenuList from "@/app/components/MenuList";
+import Forms from "@/app/components/Forms";
 
 import { DataContext } from "@/context/dataContext";
 
@@ -85,26 +85,10 @@ const Page = () => {
       ...formData,
       ...data,
       status: "Pendente",
+      pagamentos: []
     });
     showAlert();
   };
-
-  const { isLogged, redirect, hasRedirected } = useLogin();
-
-  useEffect(() => {
-    if (isLogged === false && !hasRedirected) {
-      redirect();
-    }
-  }, [isLogged, hasRedirected, redirect]);
-
-  if (!isLogged) {
-    return (
-      <div className="w-full h-full text-[#F4F4F5] m-auto flex flex-col justify-center items-center">
-        <p>Você precisa estar logado para acessar essa página.</p>
-        <p>Redirecionando para a página de login...</p>
-      </div>
-    );
-  }
 
   return (
     <>

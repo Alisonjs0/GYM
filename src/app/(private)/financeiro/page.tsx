@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styles from "../styles/financeiro.module.css";
+import styles from "@/app/styles/financeiro.module.css";
 
 import { useRouter } from "next/navigation";
 
@@ -10,36 +10,15 @@ import { useUpdate } from "@/hooks/useUpdate";
 import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 import { usePayment } from "@/hooks/usePayment";
 
-import MenuList from "../components/MenuList";
-import ListInfo from "../components/ListInfo";
+import ListInfo from "@/app/components/ListInfo";
 
 const Financeiro = () => {
-  const router = useRouter();
   const { qrCode, handleChangeInfo } = usePayment();
   const { documents: alunos } = useFetchDocuments("alunos");
   const { setIdAluno, atualizar } = useUpdate();
   const [statusAtualizando, setStatusAtualizando] = useState<string | null>(
     null
   );
-
-  const { isLogged, redirect, hasRedirected } = useLogin();
-
-  useEffect(() => {
-    if (isLogged === false && !hasRedirected) {
-      redirect();
-    }
-  }, [isLogged, hasRedirected, redirect]);
-
-  if (!isLogged) {
-    return (
-      <div className="w-full h-full text-[#F4F4F5] m-auto flex flex-col justify-center items-center">
-        <p>Você precisa estar logado para acessar essa página.</p>
-        <p>Redirecionando para a página de login...</p>
-      </div>
-    );
-  }
-
-
 
   const handleUpdate = async (alunoId: string, statusAtual: string) => {
     const novoStatus = statusAtual !== "Ativo" ? "Ativo" : "Pendente";
@@ -65,7 +44,7 @@ const Financeiro = () => {
                   contato={aluno.tel}
                   plano={aluno.plano}
                   status={aluno.status}
-                  className="flex-1 h-full mb-0"
+                  className="flex-1 mb-0"
                 />
               </div>
               {aluno.status === "Pendente" && (
@@ -78,7 +57,7 @@ const Financeiro = () => {
                         aluno.plano
                       )
                     }
-                    className="bg-[#332280] text-[#f4f4f4] px-6 rounded-lg"
+                    className="bg-[#332280] text-[#f4f4f4] px-6 py-4 rounded-lg h-full"
                   >
                     {statusAtualizando === aluno.id
                       ? "Atualizando..."
@@ -92,14 +71,6 @@ const Financeiro = () => {
         <p className="text-[#F4F4F5] text-center mt-4">
           Nenhum aluno encontrado.
         </p>
-      )}
-      {qrCode && (
-        <a
-          href={qrCode}
-          className="bg-[#332280] px-6 py-4 rounded-lg text-[#f4f4f4]"
-        >
-          Realize seu pagamento
-        </a>
       )}
     </div>
   );

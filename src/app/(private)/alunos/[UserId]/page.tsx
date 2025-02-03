@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 
+import { useUpdate } from "@/hooks/useUpdate";
 import { useLogin } from "@/hooks/useLogin";
 import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 
@@ -15,27 +16,17 @@ import { IoIosClose } from "react-icons/io";
 import { useRouter } from "next/navigation";
 
 const AlunoPage = () => {
-  const { UserId: id } = useParams(); // Captura o id da URL
+  const { UserId: id } = useParams();
   const { documents: alunos, loading } = useFetchDocuments("alunos");
 
+  const { setIdAluno, atualizar } = useUpdate();
+
+  const handleUpdate = async (alunoId: string, pagamentos: object) => {
+    setIdAluno(alunoId);
+    await atualizar({ pagamentos });
+  };
+
   const router = useRouter();
-
-  const { isLogged, redirect, hasRedirected } = useLogin();
-
-  useEffect(() => {
-    if (isLogged === false && !hasRedirected) {
-      redirect();
-    }
-  }, [isLogged, hasRedirected, redirect]);
-
-  if (!isLogged) {
-    return (
-      <div className="w-full  h-full text-[#F4F4F5] m-auto flex flex-col justify-center items-center">
-        <p>Você precisa estar logado para acessar essa página.</p>
-        <p>Redirecionando para a pagina de login...</p>
-      </div>
-    );
-  }
 
   // Filtra o aluno com base no id
   const aluno = alunos?.find((aluno) => aluno.id.toString() === id);
@@ -68,8 +59,6 @@ const AlunoPage = () => {
       dataDePagamento.setFullYear(data.getFullYear() + 1);
       break;
   }
-
-  console.log(dataDePagamento);
 
   const dataPagamentoFormatada = dataDePagamento.toLocaleDateString("pt-BR", {
     year: "numeric",
@@ -112,112 +101,13 @@ const AlunoPage = () => {
     aluno.condicoes = "Obesidade III";
   }
 
-  // Teste Historico
-  const historicoPagamentos = [
-    {
-      id: 1,
-      data: "16/01/2025",
-      valor: 150.0,
-      metodoPagamento: "Cartão de Crédito",
-      status: "Pago",
-    },
-    {
-      id: 2,
-      data: "20/01/2025",
-      valor: 200.0,
-      metodoPagamento: "Transferência Bancária",
-      status: "Pago",
-    },
-    {
-      id: 3,
-      data: "2025/01/25",
-      valor: 120.0,
-      metodoPagamento: "Boleto",
-      status: "Pendente",
-    },
-    {
-      id: 4,
-      data: "28/01/2025",
-      valor: 250.0,
-      metodoPagamento: "Dinheiro",
-      status: "Pago",
-    },
-    {
-      id: 5,
-      data: "28/01/2025",
-      valor: 250.0,
-      metodoPagamento: "Dinheiro",
-      status: "Pago",
-    },
-    {
-      id: 4,
-      data: "28/01/2025",
-      valor: 250.0,
-      metodoPagamento: "Dinheiro",
-      status: "Pago",
-    },
-    {
-      id: 5,
-      data: "28/01/2025",
-      valor: 250.0,
-      metodoPagamento: "Dinheiro",
-      status: "Pago",
-    },
-    {
-      id: 1,
-      data: "16/01/2025",
-      valor: 150.0,
-      metodoPagamento: "Cartão de Crédito",
-      status: "Pago",
-    },
-    {
-      id: 2,
-      data: "20/01/2025",
-      valor: 200.0,
-      metodoPagamento: "Transferência Bancária",
-      status: "Pago",
-    },
-    {
-      id: 3,
-      data: "2025/01/25",
-      valor: 120.0,
-      metodoPagamento: "Boleto",
-      status: "Pendente",
-    },
-    {
-      id: 4,
-      data: "28/01/2025",
-      valor: 250.0,
-      metodoPagamento: "Dinheiro",
-      status: "Pago",
-    },
-    {
-      id: 5,
-      data: "28/01/2025",
-      valor: 250.0,
-      metodoPagamento: "Dinheiro",
-      status: "Pago",
-    },
-    {
-      id: 4,
-      data: "28/01/2025",
-      valor: 250.0,
-      metodoPagamento: "Dinheiro",
-      status: "Pago",
-    },
-    {
-      id: 5,
-      data: "28/01/2025",
-      valor: 250.0,
-      metodoPagamento: "Dinheiro",
-      status: "Pago",
-    },
-  ];
-
   return (
     <div className="ml-[25vw] mr-[5vw] h-screen overflow-hidden flex items-center text-[#F4F4F5]">
       <div className="h-[80%] w-[100%] bg-[#232241] rounded-lg flex relative">
-      <IoIosClose className="absolute top-2 right-2 w-10 h-10 cursor-pointer" onClick={() => router.back()}/>
+        <IoIosClose
+          className="absolute top-2 right-2 w-10 h-10 cursor-pointer"
+          onClick={() => router.back()}
+        />
         <div className="w-1/4 border-r border-[#f4f4f521] flex flex-col items-center pt-12 gap-y-2">
           <div className="relative">
             <img
@@ -258,19 +148,39 @@ const AlunoPage = () => {
           />
           <h1 className="flex justify-center">Historico de Pagamentos :</h1>
           <div className="flex justify-between ml-6 mr-6 border border-[#f4f4f521] py-2 px-4 mt-2 w">
-                <p>Data:</p>
-                <p>Valor:</p>
-              </div>
+            <p>Data:</p>
+            <p>Valor:</p>
+          </div>
           <ScrollArea className="h-[30%] w-[100%]">
-            <div>
-              {historicoPagamentos.map((item, key) => (
-                <div key={key} className="flex justify-between ml-6 mr-6 border border-[#f4f4f521] py-1 px-4 cursor-pointer">
-                  <p>{item.data}</p>
-                  <p>R$ {item.valor.toFixed(2)}</p>
+            {aluno.pagamentos && aluno.pagamentos.length > 0 ? (
+              console.log(aluno.pagamentos),
+              aluno.pagamentos.map((pagamento: any, index: any) => (
+                <div key={index} className="flex justify-between text-sm mb-2">
+                  <p>{new Date(pagamento.data).toLocaleDateString("pt-BR")}</p>
+                  <p>{pagamento.valor} R$</p>
                 </div>
-              ))}
-            </div>
+              ))
+            ) : (
+              <p className="text-center text-sm">
+                Nenhum pagamento registrado.
+              </p>
+            )}
           </ScrollArea>
+          <button
+            onClick={() => {
+              handleUpdate(aluno.id, {
+                pagamentos1: [
+                  {
+                    data: new Date().toLocaleDateString(),
+                    valor: aluno.valorPlano,
+                    status: aluno.status
+                  },
+                ],
+              });
+            }}
+          >
+            Teste
+          </button>
         </div>
       </div>
     </div>

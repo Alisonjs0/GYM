@@ -7,12 +7,12 @@ import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 
 import Swal from "sweetalert2";
 
-import ListInfo from "../components/ListInfo";
-import Search from "../components/search";
-import Form from "../components/Forms";
+import ListInfo from "@/app/components/ListInfo";
+import Search from "@/app/components/search";
+import Form from "@/app/components/Forms";
 
-import styles from "../styles/alunos.module.css";
-import MenuList from "../components/MenuList";
+import styles from "@/app/styles/alunos.module.css";
+import MenuList from "@/app/components/MenuList";
 
 interface FormData {
   nome: string;
@@ -63,23 +63,6 @@ const page = () => {
     });
     showAlert();
   };
-
-  const { isLogged, redirect, hasRedirected } = useLogin();
-
-  useEffect(() => {
-    if (isLogged === false && !hasRedirected) {
-      redirect();
-    }
-  }, [isLogged, hasRedirected, redirect]);
-
-  if (!isLogged) {
-    return (
-      <div className="w-full  h-full text-[#F4F4F5] m-auto flex flex-col justify-center items-center">
-        <p>Você precisa estar logado para acessar essa página.</p>
-        <p>Redirecionando para a pagina de login...</p>
-      </div>
-    );
-  }
 
   return (
     <>

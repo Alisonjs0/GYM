@@ -9,25 +9,9 @@ import { ProgressoFinanceiro } from "@/components/ProgressoFinanceiro";
 import { TotalDeAlunos } from "@/components/TotaldeAlunos";
 
 //css
-import styles from "../styles/dashboard.module.css";
+import styles from "@/app/styles/dashboard.module.css";
 
-const page = () => {
-  const { isLogged, redirect, hasRedirected } = useLogin();
-
-  useEffect(() => {
-    if (isLogged === false && !hasRedirected) {
-      redirect();
-    }
-  }, [isLogged, hasRedirected, redirect]);
-
-  if (!isLogged) {
-    return (
-      <div className="w-full  h-full text-[#F4F4F5] m-auto flex flex-col justify-center items-center">
-        <p>Você precisa estar logado para acessar essa página.</p>
-        <p>Redirecionando para a pagina de login...</p>
-      </div>
-    );
-  }
+const Dashboard = () => {
 
   return (
     <div className={`${styles.container}`}>
@@ -62,4 +46,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Dashboard;
