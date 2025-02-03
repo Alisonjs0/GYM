@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 export function usePayment() {
-
-    const router = useRouter();
-
     const [valor, setValor] = useState(0);
     const [nome, setNome] = useState('');
     const [plano, setPlano] = useState('');
@@ -19,9 +15,15 @@ export function usePayment() {
 
     useEffect(() => {
         if (qrCode) {
-            router.push(qrCode);
+            window.open(qrCode);
         }
     }, [qrCode]);
+
+    useEffect(() => {
+        if (valor > 0 && nome && plano) {
+            processarPagamento();
+        }
+    }, [valor, nome, plano]);
 
     const processarPagamento = async () => {
         try {
@@ -39,8 +41,7 @@ export function usePayment() {
             const data = await response.json();
             setQrCode(`${data.qrcode}`)
         } catch (error) {
-            console.error('Erro ao processar o pagamento:', error);
-            alert('Erro ao processar o pagamento');
+            console.log('Erro ao processar o pagamento:', error);
         }
         }
 
