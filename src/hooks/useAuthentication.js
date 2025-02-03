@@ -46,8 +46,8 @@ export const useAuthentication = () => {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
       setLoading(false);
-      sessionStorage.setItem("isLogged", true);
-      router.push("/dashboard")
+      document.cookie = "isLogged=true; path=/; secure"; 
+      router.push("/")
     } catch (error) {
       let systemErrorMessage;
       if (error.message.includes("user-not-found")) {
