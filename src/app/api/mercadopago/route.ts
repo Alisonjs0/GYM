@@ -29,7 +29,6 @@ export async function POST(req: NextRequest) {
 
     const generateIdempotencyKey = () =>
       `${Date.now()}${Math.random().toString(36).substring(2, 15)}`;
-
     const requestOptions = {
       idempotencyKey: generateIdempotencyKey(),
     };
@@ -38,7 +37,6 @@ export async function POST(req: NextRequest) {
     await payment
       .create({ body, requestOptions })
       .then((response) => {
-        console.log(response);
         result = response?.point_of_interaction?.transaction_data?.ticket_url;
       })
       .catch(console.log);
