@@ -13,6 +13,7 @@ import {
 
 interface Document {
   id: string;
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: string | number | null | any; 
 }
 
@@ -78,9 +79,14 @@ export const useFetchDocuments = (
 
         // Retorna a função para cancelar o snapshot no cleanup
         return () => unsubscribe();
-      } catch (error: string | any) {
-        console.error(error);
-        setError(error.message);
+      } catch (error: unknown ) {
+        if (error instanceof Error) {
+          console.error(error);
+          setError(error.message);
+        } else {
+          console.error("Erro desconhecido", error);
+          setError("Erro desconhecido");
+        }
         setLoading(false);
       }
     }

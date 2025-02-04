@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export function usePayment() {
     const [valor, setValor] = useState(0);
@@ -19,31 +19,25 @@ export function usePayment() {
         }
     }, [qrCode]);
 
-    const processarPagamento = async () => {
+    const processarPagamento = useCallback(async () => {
         try {
-            const response = await fetch('/api/mercadopago', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ valor, nome, plano }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Erro ao processar o pagamento');
-            }
-            const data = await response.json();
-            setQrCode(`${data.qrcode}`)
+          const response = await fetch('/api/mercadopago', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ valor, nome, plano }),
+          });
+    
+          if (!response.ok) {
+            throw new Error('Erro ao processar o pagamento');
+          }
+          const data = await response.json();
+          setQrCode(`${data.qrcode}`);
         } catch (error) {
-            console.log('Erro ao processar o pagamento:', error);
+          console.log('Erro ao processar o pagamento:', error);
         }
-        }
-
-        useEffect(() => {
-            if (valor > 0 && nome && plano) {
-                processarPagamento();
-            }
-        }, [valor, nome, plano, processarPagamento]);
+      }, [valor, nome, plano]);
 
         return {processarPagamento, qrCode, handleChangeInfo};
     };
