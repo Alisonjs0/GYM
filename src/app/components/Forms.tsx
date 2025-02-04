@@ -163,7 +163,7 @@ const Forms = (props: FormProps) => {
             ) : (
               <input
                 type="text"
-                value={responsavel}
+                value={servico}
                 onChange={(e) => setServico(e.target.value)}
               />
             )}
