@@ -1,11 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "@/app/styles/financeiro.module.css";
 
-import { useRouter } from "next/navigation";
-
-import { useLogin } from "@/hooks/useLogin";
 import { useUpdate } from "@/hooks/useUpdate";
 import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 import { usePayment } from "@/hooks/usePayment";
@@ -13,21 +10,21 @@ import { usePayment } from "@/hooks/usePayment";
 import ListInfo from "@/app/components/ListInfo";
 
 const Financeiro = () => {
-  const { qrCode, handleChangeInfo } = usePayment();
+  const { handleChangeInfo } = usePayment();
   const { documents: alunos } = useFetchDocuments("alunos");
   const { setIdAluno, atualizar } = useUpdate();
   const [statusAtualizando, setStatusAtualizando] = useState<string | null>(
     null
   );
 
-  const handleUpdate = async (alunoId: string, statusAtual: string) => {
-    const novoStatus = statusAtual !== "Ativo" ? "Ativo" : "Pendente";
-    setStatusAtualizando(alunoId);
-    setIdAluno(alunoId);
-    await atualizar({ status: novoStatus });
+  // const handleUpdate = async (alunoId: string, statusAtual: string) => {
+  //   const novoStatus = statusAtual !== "Ativo" ? "Ativo" : "Pendente";
+  //   setStatusAtualizando(alunoId);
+  //   setIdAluno(alunoId);
+  //   await atualizar({ status: novoStatus });
 
-    setStatusAtualizando(null);
-  };
+  //   setStatusAtualizando(null);
+  // };
 
   return (
     <div className={`${styles.container}`}>

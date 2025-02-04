@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { db } from "../firebase/config";
-import { doc, updateDoc, getDoc, addDoc, collection, arrayUnion } from "firebase/firestore";
+import { doc, updateDoc, getDoc, addDoc, collection } from "firebase/firestore";
 
 type AlunoData = {
   nome?: string;
@@ -15,12 +15,12 @@ export const useUpdate = () => {
   const [idAluno, setIdAluno] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
-  const addAluno = async (data: { nome: string }) => {
-    const alunosRef = collection(db, "alunos");
-    const docRef = await addDoc(alunosRef, data);
+  // const addAluno = async (data: { nome: string }) => {
+  //   const alunosRef = collection(db, "alunos");
+  //   const docRef = await addDoc(alunosRef, data);
   
-    console.log("Documento adicionado com ID:", docRef.id); // ID gerado automaticamente
-  };
+  //   console.log("Documento adicionado com ID:", docRef.id); // ID gerado automaticamente
+  // };
 
 
   const atualizar = async (data: AlunoData) => {

@@ -6,9 +6,6 @@ import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
-import { getData } from "@/data/data"
-const { data } = getData()
-
 const chartConfig = {
   desktop: {
     label: "Desktop",

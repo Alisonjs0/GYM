@@ -11,8 +11,6 @@ import styles from "@/app/styles/alunos.module.css";
 import MenuList from "@/app/components/MenuList";
 import Forms from "@/app/components/Forms";
 
-import { DataContext } from "@/context/dataContext";
-
 import { useInsertDocument } from "@/hooks/useInsertDocument";
 import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 
@@ -33,11 +31,6 @@ interface FormData {
 }
 
 const Page = () => {
-  const context = useContext(DataContext);
-  if (!context) {
-    throw new Error("Contexto DataContext não foi fornecido.");
-  }
-
   const { insertDocument, response } = useInsertDocument("alunos");
 
   const { documents: alunos, loading } = useFetchDocuments("alunos");

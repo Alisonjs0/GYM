@@ -1,12 +1,8 @@
-import { db } from "../firebase/config";
-
 import { useRouter } from "next/navigation";
 
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  updateProfile,
   signOut,
 } from "firebase/auth";
 

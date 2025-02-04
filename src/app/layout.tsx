@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./styles/globals.css";
 
-import { DataContextProvider } from "@/context/dataContext";
 import NavLayout from "./components/navLayout";
 
 export const metadata: Metadata = {
@@ -14,12 +13,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-          <DataContextProvider>
             <body>
               <NavLayout></NavLayout>
               {children}
             </body>
-          </DataContextProvider>
     </html>
   );
 }

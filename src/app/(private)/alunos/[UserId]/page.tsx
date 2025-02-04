@@ -1,10 +1,8 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
 
 import { useUpdate } from "@/hooks/useUpdate";
-import { useLogin } from "@/hooks/useLogin";
 import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 
 import InfoAluno from "@/app/components/InfoAluno";

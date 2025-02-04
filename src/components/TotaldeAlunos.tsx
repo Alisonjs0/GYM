@@ -12,18 +12,10 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
-
-import { useFetchDocuments } from "@/hooks/useFetchDocuments";
-
-import { DataContext } from "@/context/dataContext";
-import { useContext } from "react";
-
-import Link from "next/link";
 
 interface Total {
   title: string;
@@ -33,21 +25,6 @@ interface Total {
 }
 
 export function TotalDeAlunos(props: Total) {
-  const context = useContext(DataContext);
-  if (!context) {
-    return <p>Contexto não disponível!</p>;
-  }
-
-  const { documents: alunos, loading } = useFetchDocuments("alunos");
-
-  let total = 0;
-
-  alunos?.map((aluno) => {
-    if (aluno.status === "Pendente") {
-      total += 1;
-    }
-  });
-
   const chartData = [{ totAtivos: props.total, fill: "var(--color-safari)" }];
 
   const chartConfig = {

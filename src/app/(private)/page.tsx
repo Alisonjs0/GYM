@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 const Dashboard = () => {
   const router = useRouter();
 
-  const { documents: alunos, loading } = useFetchDocuments("alunos");
+  const { documents: alunos } = useFetchDocuments("alunos");
 
   const alunosAtivos =
     alunos && alunos.filter((aluno) => aluno.status === "Ativo");

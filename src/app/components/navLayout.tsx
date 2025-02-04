@@ -2,7 +2,6 @@
 
 import NavBar from "./navBar";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
 export default function ClientWrapper() {
   const pathname = usePathname();

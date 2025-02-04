@@ -1,5 +1,5 @@
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { FaSearch } from "react-icons/fa";
 
@@ -30,25 +30,25 @@ const Search: React.FC<SearchProps> = ({ className, setSearch }) => {
       {usePathname() === "/alunos" && (
         <div className="flex gap-4 mr-4">
           <button
-            onClick={(e) => setSearch("Ativo")}
+            onClick={() => setSearch("Ativo")}
             className="bg-[#232241] text-[#f4f4f4] px-4 py-2 rounded-lg"
           >
             Ativo
           </button>
           <button
-            onClick={(e) => setSearch("Inativo")}
+            onClick={() => setSearch("Inativo")}
             className="bg-[#232241] text-[#f4f4f4] px-4 py-2 rounded-lg"
           >
             Inativos
           </button>
           <button
-            onClick={(e) => setSearch("Pendente")}
+            onClick={() => setSearch("Pendente")}
             className="bg-[#232241] text-[#f4f4f4] px-4 py-2 rounded-lg"
           >
             Pendentes
           </button>
           <button
-            onClick={(e) => setSearch("")}
+            onClick={() => setSearch("")}
             className="bg-[#232241] text-[#f4f4f4] px-4 py-2 rounded-lg"
           >
             Todos

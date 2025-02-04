@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { useLogin } from "@/hooks/useLogin";
+import React, { useState } from "react";
 import { useInsertDocument } from "@/hooks/useInsertDocument";
 import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 
@@ -22,12 +21,12 @@ interface FormData {
   responsavel?: string;
 }
 
-const page = () => {
+const Agendamentos = () => {
   const [stage, setStage] = useState("agenda");
 
   const [search, setSearch] = useState("");
-
-  const { insertDocument, response } = useInsertDocument("agenda");
+  
+  const { insertDocument } = useInsertDocument("agenda");
 
   const { documents: agendamentos, loading } = useFetchDocuments("agenda");
 
@@ -119,4 +118,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Agendamentos;
