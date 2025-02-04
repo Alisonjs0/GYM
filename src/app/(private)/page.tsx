@@ -24,41 +24,35 @@ const Dashboard = () => {
     alunos && alunos.filter((aluno) => aluno.status === "Pendente");
 
   const meses = [
-    "JANEIRO",
-    "FEVEREIRO",
-    "MARCO",
-    "ABRIL",
-    "MAIO",
-    "JUNHO",
-    "JULHO",
-    "AGOSTO",
-    "SETEMBRO",
-    "OUTUBRO",
-    "NOVEMBRO",
-    "DEZEMBRO",
+    "Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho",
+    "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
   ];
 
   const contagemPorMes = new Array(12).fill(0);
   const desistenciasPorMes = new Array(12).fill(0);
+  const arrecadadoPorMes = new Array(12).fill(0);
 
   alunos?.forEach((aluno) => {
     if (aluno.createdAt) {
       const dataCriacao = aluno.createdAt.toDate();
       const mes = dataCriacao.getMonth();
       contagemPorMes[mes]++;
-      if (!aluno.ativo) {
+      if (aluno.status === "Inativo" || aluno.status === "Cancelado") {
         desistenciasPorMes[mes]++;
+      }
+      if (aluno.valorPlano) {
+        arrecadadoPorMes[mes] += aluno.valorPlano;
       }
     }
   });
 
   const resultdado = meses.map((nomeMes, index) => ({
     mes: nomeMes,
-    quantidade: contagemPorMes[index],
+    matriculas: contagemPorMes[index],
     desistencias: desistenciasPorMes[index],
+    arrecadado: arrecadadoPorMes[index] ? arrecadadoPorMes[index].toFixed(2) : ""
   }));
 
-  console.log(resultdado)
 
   return (
     <div className={`${styles.container}`}>
@@ -86,7 +80,7 @@ const Dashboard = () => {
             <CaptacaoDeAlunos result={resultdado} />
           </span>
           <span>
-            <ProgressoFinanceiro />
+            <ProgressoFinanceiro result={resultdado}/>
           </span>
         </span>
       </div>

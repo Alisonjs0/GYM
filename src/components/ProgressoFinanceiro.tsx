@@ -37,6 +37,7 @@ const chartConfig = {
 
 interface Props {
   className?: string
+  result: Array<{mes: string, matriculas: number, desistencias: number, arrecadado: number}>
 }
 
 export function ProgressoFinanceiro(props: Props) {
@@ -44,13 +45,13 @@ export function ProgressoFinanceiro(props: Props) {
     <Card className={`bg-[#232241] border-none ${props.className}`}>
       <CardHeader>
         <CardTitle className="text-[#F4F4F5]">Total arrecado no periodo</CardTitle>
-        <CardDescription>Janeiro - Junho 2024</CardDescription>
+        <CardDescription>Janeiro - Junho 2025</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
-            data={data}
+            data={props.result.slice(0, 6)}
             layout="vertical"
             margin={{
               right: 16,
@@ -58,7 +59,7 @@ export function ProgressoFinanceiro(props: Props) {
           >
             <CartesianGrid horizontal={false} />
             <YAxis
-              dataKey="month"
+              dataKey="mes"
               type="category"
               tickLine={false}
               tickMargin={10}
@@ -66,26 +67,26 @@ export function ProgressoFinanceiro(props: Props) {
               tickFormatter={(value) => value.slice(0, 3)}
               hide
             />
-            <XAxis dataKey="valor" type="number" hide />
+            <XAxis dataKey={"arrecadado"} type="number" hide />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
             <Bar
-              dataKey="valor"
+              dataKey="arrecadado"
               layout="vertical"
               fill="var(--color-desktop)"
               radius={4}
             >
               <LabelList
-                dataKey="month"
+                dataKey="mes"
                 position="insideLeft"
                 offset={8}
                 className="fill-[--color-label]"
                 fontSize={12}
               />
               <LabelList
-                dataKey="valor"
+                dataKey="arrecadado"
                 position="right"
                 offset={8}
                 className="fill-[--color-label]"
@@ -96,7 +97,7 @@ export function ProgressoFinanceiro(props: Props) {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
+        <div className="flex gap-2 font-medium leading-none  text-[#F4F4F5]">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">

@@ -21,19 +21,20 @@ const chartConfig = {
 } satisfies ChartConfig
 
 interface Captacao {
-  result: Array<{mes: string, quantidade: number}>
+  result: Array<{mes: string, matriculas: number, desistencias: number, arrecadado: number}>
 }
 
 export function CaptacaoDeAlunos(props: Captacao) {
+
   return (
     <Card className="bg-[#232241] border-none">
       <CardHeader>
-        <CardTitle className="text-[#F4F4F5]">Bar Chart - Multiple</CardTitle>
-        <CardDescription className="text-[#F4F4F5]">January - June 2024</CardDescription>
+        <CardTitle className="text-[#F4F4F5]">Captacao de alunos</CardTitle>
+        <CardDescription className="text-[#F4F4F5]">Janeiro - Junho 2025</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={props.result}>
+          <BarChart accessibilityLayer data={props.result.slice(0, 6)}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="mes"
@@ -43,7 +44,7 @@ export function CaptacaoDeAlunos(props: Captacao) {
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dashed" />} />
-            <Bar dataKey="quantidade" fill="var(--color-mobile)" radius={4} />
+            <Bar dataKey="matriculas" fill="var(--color-mobile)" radius={4} />
             <Bar dataKey="desistencias" fill="#C14345" radius={4} />
           </BarChart>
         </ChartContainer>
