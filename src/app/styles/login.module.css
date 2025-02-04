@@ -25,7 +25,7 @@
     font-size: 1.2rem;
 }
 
-input:focus {
+.form input:focus {
     outline: 2px solid #332280;
     outline-offset: 2px;
   }
