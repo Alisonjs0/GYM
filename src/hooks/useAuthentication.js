@@ -1,7 +1,5 @@
 import { useRouter } from "next/navigation";
 
-import { db } from "../firebase/config";
-
 import {
   getAuth,
   signInWithEmailAndPassword,
