@@ -23,10 +23,13 @@ import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 import { DataContext } from "@/context/dataContext";
 import { useContext } from "react";
 
+import Link from "next/link";
+
 interface Total {
   title: string;
   subtitle: string
   total: number;
+  handleRedirect?: () => void
 }
 
 export function TotalDeAlunos(props: Total) {
@@ -57,15 +60,15 @@ export function TotalDeAlunos(props: Total) {
     },
   } satisfies ChartConfig;
   return (
-    <Card className="flex flex-col bg-[#232241] border-none">
+    <Card className="flex flex-col bg-[#232241] border-none cursor-pointer" onClick={props.handleRedirect || undefined}>
       <CardHeader className="items-center pb-0">
         <CardTitle className="text-[#F4F4F5]">{props.title}</CardTitle>
         <CardDescription>Janeiro - Junho 2024</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex-1 pb-0 cursor-pointer">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square"
+          className="mx-auto aspect-square cursor-pointer"
         >
           <RadialBarChart
             data={chartData}
@@ -73,15 +76,16 @@ export function TotalDeAlunos(props: Total) {
             endAngle={250}
             innerRadius={80}
             outerRadius={110}
+            className="cursor-pointer"
           >
             <PolarGrid
               gridType="circle"
               radialLines={false}
               stroke="none"
-              className="first:fill-muted last:fill-[#232241] bg-[#232241]"
+              className="first:fill-muted last:fill-[#232241] bg-[#232241] cursor-pointer"
               polarRadius={[86, 74]}
             />
-            <RadialBar dataKey="totAtivos" background cornerRadius={10} />
+            <RadialBar dataKey="totAtivos" background cornerRadius={10} className="cursor-pointer"/>
             <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {

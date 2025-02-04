@@ -20,7 +20,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function CaptacaoDeAlunos() {
+interface Captacao {
+  result: Array<{mes: string, quantidade: number}>
+}
+
+export function CaptacaoDeAlunos(props: Captacao) {
   return (
     <Card className="bg-[#232241] border-none">
       <CardHeader>
@@ -29,18 +33,18 @@ export function CaptacaoDeAlunos() {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={data}>
+          <BarChart accessibilityLayer data={props.result}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="mes"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dashed" />} />
-            <Bar dataKey="Alunos Matriculados" fill="var(--color-mobile)" radius={4} />
-            <Bar dataKey="Desistencias" fill="#C14345" radius={4} />
+            <Bar dataKey="quantidade" fill="var(--color-mobile)" radius={4} />
+            <Bar dataKey="desistencias" fill="#C14345" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>
