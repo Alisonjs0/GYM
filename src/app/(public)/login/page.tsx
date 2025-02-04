@@ -2,7 +2,7 @@
 
 import styles from "@/app/styles/login.module.css";
 import { useAuthentication } from "@/hooks/useAuthentication";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Login() {
   const [user, setUser] = useState("");
@@ -10,9 +10,11 @@ export default function Login() {
 
   const { login, loading, error } = useAuthentication();
 
-  if (user == "1234") {
-    setUser("alisonserafim.tec@gmail.com");
-  }
+  useEffect(() => {
+    if (user === "1234") {
+      setUser("alisonserafim.tec@gmail.com");
+    }
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 
-import { db } from "@/firebase/config";
+import { db } from "../firebase/config";
 
 import {
   getAuth,
@@ -15,7 +15,7 @@ export const useAuthentication = () => {
   const router = useRouter()
 
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // cleanup
   // deal with memory leak
@@ -67,6 +67,7 @@ export const useAuthentication = () => {
   return {
     auth,
     error,
+    setError,
     loading,
     logout,
     login,
