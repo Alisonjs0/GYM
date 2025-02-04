@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { db } from "../firebase/config";
 
 import {
