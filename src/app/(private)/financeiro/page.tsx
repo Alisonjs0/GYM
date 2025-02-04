@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import styles from "@/app/styles/financeiro.module.css";
 
-// import { useUpdate } from "@/hooks/useUpdate";
+import { useUpdate } from "@/hooks/useUpdate";
 import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 import { usePayment } from "@/hooks/usePayment";
 
@@ -12,17 +12,18 @@ import ListInfo from "@/app/components/ListInfo";
 const Financeiro = () => {
   const { handleChangeInfo } = usePayment();
   const { documents: alunos } = useFetchDocuments("alunos");
-  // const { setIdAluno, atualizar } = useUpdate();
-  // const [statusAtualizando, setStatusAtualizando] = useState<string | null>(null);
+  const { setIdAluno, atualizar } = useUpdate();
+  const [statusAtualizando, setStatusAtualizando] = useState<string | null>(null);
 
-  // const handleUpdate = async (alunoId: string, statusAtual: string) => {
-  //   const novoStatus = statusAtual !== "Ativo" ? "Ativo" : "Pendente";
-  //   setStatusAtualizando(alunoId);
-  //   setIdAluno(alunoId);
-  //   await atualizar({ status: novoStatus });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleUpdate = async (alunoId: string, statusAtual: string) => {
+    const novoStatus = statusAtual !== "Ativo" ? "Ativo" : "Pendente";
+    setStatusAtualizando(alunoId);
+    setIdAluno(alunoId);
+    await atualizar({ status: novoStatus });
 
-  //   setStatusAtualizando(null);
-  // };
+    setStatusAtualizando(null);
+  };
 
   return (
     <div className={`${styles.container}`}>
@@ -54,9 +55,9 @@ const Financeiro = () => {
                     }
                     className="bg-[#332280] text-[#f4f4f4] px-6 py-4 rounded-lg h-full"
                   >
-                    {/* {statusAtualizando === aluno.id
+                    {statusAtualizando === aluno.id
                       ? "Atualizando..."
-                      : "Ativar"} */}
+                      : "Ativar"}
                   </button>
                 </>
               )}
