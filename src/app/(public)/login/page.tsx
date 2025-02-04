@@ -11,6 +11,11 @@ export default function Login() {
 
   const { login, loading, error } = useAuthentication();
 
+
+  if (user === "1234") {
+    setUser("alisonserafim.tec@gmail.com")
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
