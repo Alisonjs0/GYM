@@ -1,9 +1,6 @@
 "use client";
 
-import React, { useState, useContext, useEffect } from "react";
-import { useLogin } from "@/hooks/useLogin";
-
-import { v4 as uuidv4 } from "uuid";
+import React, { useState, useContext } from "react";
 
 import Swal from "sweetalert2";
 
