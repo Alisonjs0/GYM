@@ -18,9 +18,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 
-import { getData } from "@/data/data"
-const { data } = getData()
-
 const chartConfig = {
   desktop: {
     label: "Valor",

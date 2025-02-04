@@ -44,7 +44,7 @@ const Forms = (props: FormProps) => {
 
   const [salvo, setSalvo] = useState(true);
 
-  const [formDataAdc, setFormDataAdc] = useState<{}>({
+  const [formDataAdc, setFormDataAdc] = useState({
     objt: "",
     altura: "",
     exp: "",

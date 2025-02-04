@@ -1,7 +1,5 @@
 "use client";
 
-import { useParams } from "next/navigation";
-
 import { useUpdate } from "@/hooks/useUpdate";
 import { useFetchDocuments } from "@/hooks/useFetchDocuments";
 
@@ -11,7 +9,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { IoIosClose } from "react-icons/io";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
+import Image from "next/image";
+
+interface Pagamento {
+  data: string | Date;
+  valor: number;
+}
 
 const AlunoPage = () => {
   const { UserId: id } = useParams();
@@ -108,10 +112,12 @@ const AlunoPage = () => {
         />
         <div className="w-1/4 border-r border-[#f4f4f521] flex flex-col items-center pt-12 gap-y-2">
           <div className="relative">
-            <img
+            <Image
               src="/userIcon.jpg"
               alt=""
-              className="bg-[#F4F4F5] w-24 h-24 rounded-full"
+              width={52}
+              height={52}
+              className="bg-[#F4F4F5] rounded-full"
             />
           </div>
           <p className="text-md">
@@ -151,8 +157,7 @@ const AlunoPage = () => {
           </div>
           <ScrollArea className="h-[30%] w-[100%]">
             {aluno.pagamentos && aluno.pagamentos.length > 0 ? (
-              console.log(aluno.pagamentos),
-              aluno.pagamentos.map((pagamento: any, index: any) => (
+              aluno.pagamentos.map((pagamento: Pagamento, index: number) => (
                 <div key={index} className="flex justify-between text-sm mb-2">
                   <p>{new Date(pagamento.data).toLocaleDateString("pt-BR")}</p>
                   <p>{pagamento.valor} R$</p>

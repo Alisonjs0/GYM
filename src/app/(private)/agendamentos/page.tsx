@@ -25,6 +25,8 @@ const Agendamentos = () => {
   const [stage, setStage] = useState("agenda");
 
   const [search, setSearch] = useState("");
+
+  console.log(search)
   
   const { insertDocument } = useInsertDocument("agenda");
 

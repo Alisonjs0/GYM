@@ -13,7 +13,7 @@ import {
 
 interface Document {
   id: string;
-  [key: string]: any; 
+  [key: string]: string | number | null | any; 
 }
 
 export const useFetchDocuments = (
@@ -78,7 +78,7 @@ export const useFetchDocuments = (
 
         // Retorna a função para cancelar o snapshot no cleanup
         return () => unsubscribe();
-      } catch (error: any) {
+      } catch (error: string | any) {
         console.error(error);
         setError(error.message);
         setLoading(false);

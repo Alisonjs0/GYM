@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 
 export function usePayment() {
     const [valor, setValor] = useState(0);
@@ -19,12 +19,6 @@ export function usePayment() {
         }
     }, [qrCode]);
 
-    useEffect(() => {
-        if (valor > 0 && nome && plano) {
-            processarPagamento();
-        }
-    }, [valor, nome, plano]);
-
     const processarPagamento = async () => {
         try {
             const response = await fetch('/api/mercadopago', {
@@ -44,6 +38,12 @@ export function usePayment() {
             console.log('Erro ao processar o pagamento:', error);
         }
         }
+
+        useEffect(() => {
+            if (valor > 0 && nome && plano) {
+                processarPagamento();
+            }
+        }, [valor, nome, plano, processarPagamento]);
 
         return {processarPagamento, qrCode, handleChangeInfo};
     };
