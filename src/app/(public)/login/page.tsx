@@ -7,7 +7,6 @@ import { useState } from "react";
 export default function Login() {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
-  console.log("tudo ok 1")
 
   const { login, loading, error } = useAuthentication();
 
@@ -26,7 +25,6 @@ export default function Login() {
     await login(data);
   };
 
-  console.log("tudo ok 1")
   return (
     <>
       <form className={styles.form} onSubmit={handleSubmit}>

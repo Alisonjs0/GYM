@@ -22,7 +22,6 @@ const Search: React.FC<SearchProps> = ({ className, setSearch }) => {
 
   useEffect(() => {
     setSearch(inputValue);
-    console.log(inputValue);
   }, [inputValue, setSearch]);
 
   return (
