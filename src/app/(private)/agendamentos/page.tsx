@@ -25,8 +25,6 @@ const Agendamentos = () => {
   const [stage, setStage] = useState("agenda");
 
   const [search, setSearch] = useState("");
-
-  console.log(search)
   
   const { insertDocument } = useInsertDocument("agenda");
 
@@ -80,12 +78,30 @@ const Agendamentos = () => {
                 status="Horario"
               ></MenuList>
               {loading && <p>Carregando...</p>}
-              {agendamentos &&
-                agendamentos.map((agenda) => (
+              {agendamentos
+                ?.filter((agenda) => {
+                  const normalizedSearch = search
+                    .trim()
+                    .replace(/\s+/g, "")
+                    .toLowerCase();
+
+                  if (normalizedSearch === "") return true;
+
+                  return Object.values(agenda).some((valor) => {
+                    if (typeof valor === "string") {
+                      const normalizedValue = valor
+                        .trim()
+                        .replace(/\s+/g, "")
+                        .toLowerCase();
+                      return normalizedValue.includes(normalizedSearch);
+                    }
+                    return false;
+                  });
+                })
+                .map((agenda) => (
                   <ListInfo
-                    className={styles.list}
-                    id={agenda.id}
                     key={agenda.id}
+                    id={agenda.id}
                     nome={agenda.nome}
                     contato={agenda.data}
                     plano={agenda.servico}
