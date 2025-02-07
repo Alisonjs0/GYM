@@ -22,6 +22,7 @@ interface FormData {
   sexo?: string;
   tel?: string;
   plano?: string;
+  valorPlano?: number;
   objt?: string;
   altura?: string;
   exp?: string;
@@ -58,6 +59,7 @@ const Page = () => {
     sexo: "",
     tel: "",
     plano: "",
+    valorPlano: 0,
     objt: "",
     altura: "",
     exp: "",
@@ -75,7 +77,7 @@ const Page = () => {
       ...formData,
       ...data,
       status: "Pendente",
-      pagamentos: []
+      createdAt: new Date().toLocaleDateString("pt-BR"),
     });
     showAlert();
   };
@@ -100,17 +102,20 @@ const Page = () => {
                   const normalizedSearch = search
                     .trim()
                     .replace(/\s+/g, "")
-                    .toLowerCase(); 
+                    .toLowerCase();
 
-                  if (normalizedSearch === "") return true; 
+                  if (normalizedSearch === "") return true;
 
                   return Object.values(aluno).some((valor) => {
                     if (typeof valor === "string") {
                       const normalizedValue = valor
                         .trim()
                         .replace(/\s+/g, "")
-                        .toLowerCase(); 
-                      return normalizedValue.includes(normalizedSearch); 
+                        .toLowerCase();
+                      if (search === "Ativo") {
+                        return normalizedValue === search.toLocaleLowerCase()
+                      }
+                      return normalizedValue.includes(normalizedSearch);
                     }
                     return false;
                   });
