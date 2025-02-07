@@ -55,7 +55,7 @@ export const useFetchDocuments = (
             orderBy("createdAt", "desc")
           );
         } else {
-          q = query(collectionRef, orderBy("createdAt", "desc"));
+          q = query(collectionRef, orderBy("nome"));
         }
 
         // Observa as alterações nos documentos
