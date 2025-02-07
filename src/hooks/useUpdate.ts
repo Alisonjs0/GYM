@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { db } from "../firebase/config";
-import { doc, updateDoc, getDoc} from "firebase/firestore";
+import { doc, updateDoc, getDoc, collection, addDoc} from "firebase/firestore";
 
 type AlunoData = {
   nome?: string;
@@ -14,6 +14,7 @@ type AlunoData = {
 export const useUpdate = () => {
   const [idAluno, setIdAluno] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [newPaymentId, setNewPaymentId] = useState<string | null>(null);
 
   // const addAluno = async (data: { nome: string }) => {
   //   const alunosRef = collection(db, "alunos");
@@ -33,7 +34,7 @@ export const useUpdate = () => {
 
     try {
       const docRef = doc(db, "alunos", idAluno);
-
+      
       const docSnap = await getDoc(docRef); 
 
       if (!docSnap.exists()) {
@@ -51,9 +52,23 @@ export const useUpdate = () => {
     }
   };
 
+  const criarPagamento = async (data: object) => {
+    console.log(data)
+    try {
+      const docRef = doc(db, "alunos", idAluno);
+      const paymentRef = collection(docRef, "pagamentos");
+      const newPayment = await addDoc(paymentRef, data);
+      setNewPaymentId(newPayment.id);
+      console.log("Novo pagamento:", newPayment.id);
+    } catch (error) {
+      console.error("Erro ao criar pagamento:", error);
+    }
+  };
+
   return {
     setIdAluno,
     atualizar,
-    loading
+    loading,
+    criarPagamento
   };
 };
