@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormsAdc from "./FormsAdc";
 import { usePathname } from "next/navigation";
 
@@ -16,6 +16,7 @@ export interface FormProps {
     sexo?: string;
     tel?: string;
     plano?: string;
+    valorPlano?: number;
     objt?: string;
     altura?: string;
     exp?: string;
@@ -34,9 +35,11 @@ const Forms = (props: FormProps) => {
 
   const [nome, setNome] = useState("");
   const [data, setData] = useState("");
+  const [prevData, setPrevData] = useState("")
   const [sexo, setSexo] = useState("");
   const [tel, setTel] = useState("");
   const [plano, setPlano] = useState("");
+  const [valorPlano, setValorPlano] = useState(0)
 
   const [horario, setHorario] = useState("");
   const [servico, setServico] = useState("");
@@ -53,17 +56,54 @@ const Forms = (props: FormProps) => {
     indicacao: "",
   });
 
-  const formatDate = (dateString: string) => {
-    const dateObj = new Date(dateString);
-    const day = dateObj.getDate().toString().padStart(2, "0");
-    const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
-    const year = dateObj.getFullYear();
+  const valorDoPagamento = () => {
+    switch (plano) {
+      case "Mensal":
+        setValorPlano(50);
+        break;
+      case "Trimestral":
+        setValorPlano(150);
+        break;
+      case "Semestral":
+        setValorPlano(300);
+        break;
+      case "Anual":
+        setValorPlano(600);
+    }
+  }
 
-    return `${day}/${month}/${year}`;
+  useEffect(() => {
+    valorDoPagamento();
+  }, [plano, valorDoPagamento])
+
+  const formatarData = (data: string) => {
+    let apenasNumeros = data.replace(/\D/g, "");
+    if (apenasNumeros.length <= 2) {
+      apenasNumeros = apenasNumeros.replace(/(\d{0,2})(\d{0,2})/, "$1/$2");
+    } else if (apenasNumeros.length <= 5) {
+      apenasNumeros = apenasNumeros.replace(
+        /(\d{0,2})(\d{0,2})(\d{0,4})/,
+        "$1/$2/$3"
+      );
+    } else {
+      apenasNumeros = apenasNumeros.replace(
+        /(\d{0,2})(\d{0,2})(\d{0,4})(\d{0,2})/,
+        "$1/$2/$3"
+      );
+    }
+
+    return apenasNumeros;
   };
 
   const handleChangeData = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData(formatDate(e.target.value));
+    const valor = e.target.value;
+    if (valor.length < prevData.length) {
+      setData(valor);
+    } else {
+      setData(formatarData(valor));
+    }
+
+    setPrevData(valor);
   };
 
   const formatarTelefone = (valor: string): string => {
@@ -106,18 +146,34 @@ const Forms = (props: FormProps) => {
       return;
     }
 
+    if (nome == "" || data == "" || plano == "" || tel == "" || sexo == "") {
+      return window.alert("Por favor, preencha todos os campos.");
+    }
+  
     props.onSubmit({
       nome,
       data,
       sexo,
       tel,
       plano,
+      valorPlano,
       ...formDataAdc,
     });
   };
 
   const handleAgendamentoSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    if (
+      nome == "" ||
+      data == "" ||
+      horario == "" ||
+      servico == "" ||
+      responsavel == ""
+    ) {
+      return window.alert("Por favor, preencha todos os campos.");
+    }
+
     props.onSubmit({
       nome,
       data,
@@ -137,7 +193,7 @@ const Forms = (props: FormProps) => {
         <div className="flex justify-between gap-4">
           <label className="flex flex-col w-3/4">
             <span>{props.campo2}</span>
-            <input type="date" onChange={handleChangeData} />
+            <input type="text" onChange={handleChangeData} value={data}/>
           </label>
           {pathname === "/alunos" ? (
             <label className="flex flex-col w-1/2">
@@ -159,7 +215,12 @@ const Forms = (props: FormProps) => {
           <label className="flex flex-col w-3/4">
             <span>{props.campo4}</span>
             {pathname === "/alunos" ? (
-              <input type="text" value={tel} maxLength={15} onChange={handleChangeTel} />
+              <input
+                type="text"
+                value={tel}
+                maxLength={15}
+                onChange={handleChangeTel}
+              />
             ) : (
               <input
                 type="text"
