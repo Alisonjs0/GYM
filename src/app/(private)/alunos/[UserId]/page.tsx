@@ -11,6 +11,7 @@ import { IoIosClose } from "react-icons/io";
 
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
+import { Timestamp } from "firebase/firestore";
 
 interface Pagamento {
   data: string | Date;
@@ -21,7 +22,7 @@ const AlunoPage = () => {
   const { UserId: id } = useParams();
   const { documents: alunos, loading } = useFetchDocuments("alunos");
 
-  const { setIdAluno, atualizar } = useUpdate();
+  const { setIdAluno, atualizar, criarPagamento } = useUpdate();
 
   const handleUpdate = async (alunoId: string, pagamentos: object) => {
     setIdAluno(alunoId);
@@ -103,6 +104,16 @@ const AlunoPage = () => {
     aluno.condicoes = "Obesidade III";
   }
 
+  const newPayment = () => {
+    console.log("ok")
+    setIdAluno(aluno.id);
+    criarPagamento({
+      dataDePagamento: Timestamp.now(),
+      valor: aluno.valorPlano,
+      status: "Pago"
+    });
+  }
+
   return (
     <div className="ml-[25vw] mr-[5vw] h-screen overflow-hidden flex items-center text-[#F4F4F5]">
       <div className="h-[80%] w-[100%] bg-[#232241] rounded-lg flex relative">
@@ -169,21 +180,7 @@ const AlunoPage = () => {
               </p>
             )}
           </ScrollArea>
-          <button
-            onClick={() => {
-              handleUpdate(aluno.id, {
-                pagamentos1: [
-                  {
-                    data: new Date().toLocaleDateString(),
-                    valor: aluno.valorPlano,
-                    status: aluno.status
-                  },
-                ],
-              });
-            }}
-          >
-            Teste
-          </button>
+          <button onClick={() => newPayment()}>teste</button>
         </div>
       </div>
     </div>
