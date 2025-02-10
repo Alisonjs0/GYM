@@ -44,7 +44,7 @@ export const useAuthentication = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
       const token = await userCredential.user.getIdToken();
-      document.cookie = `securetoken=${token}; path=/; secure`; 
+      document.cookie = `securetoken=${token}; path=/; secure; max-age=${24 * 60 * 60}`; 
 
       router.push("/");
 
