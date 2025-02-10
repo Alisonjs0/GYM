@@ -68,6 +68,7 @@ export const useUpdate = () => {
     setIdAluno,
     atualizar,
     loading,
-    criarPagamento
+    criarPagamento,
+    newPaymentId
   };
 };
