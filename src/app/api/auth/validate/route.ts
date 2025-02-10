@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import admin from "firebase-admin";
-import { cookies } from "next/headers";
 
 if (!admin.apps.length) {
   admin.initializeApp({
