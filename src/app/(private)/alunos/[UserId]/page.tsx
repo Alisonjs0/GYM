@@ -22,12 +22,7 @@ const AlunoPage = () => {
   const { UserId: id } = useParams();
   const { documents: alunos, loading } = useFetchDocuments("alunos");
 
-  const { setIdAluno, atualizar, criarPagamento } = useUpdate();
-
-  const handleUpdate = async (alunoId: string, pagamentos: object) => {
-    setIdAluno(alunoId);
-    await atualizar({ pagamentos });
-  };
+  const { setIdAluno, criarPagamento } = useUpdate();
 
   const router = useRouter();
 
@@ -105,7 +100,6 @@ const AlunoPage = () => {
   }
 
   const newPayment = () => {
-    console.log("ok")
     setIdAluno(aluno.id);
     criarPagamento({
       dataDePagamento: Timestamp.now(),

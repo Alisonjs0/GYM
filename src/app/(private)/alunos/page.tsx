@@ -31,7 +31,7 @@ interface FormData {
   indicacao?: string;
 }
 
-const Page = () => {
+const UserId = () => {
   const { insertDocument, response } = useInsertDocument("alunos");
 
   const { documents: alunos, loading } = useFetchDocuments("alunos");
@@ -165,4 +165,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default UserId;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import FormsAdc from "./FormsAdc";
 import { usePathname } from "next/navigation";
 
@@ -56,7 +56,7 @@ const Forms = (props: FormProps) => {
     indicacao: "",
   });
 
-  const valorDoPagamento = () => {
+  const valorDoPagamento = useCallback(() => {
     switch (plano) {
       case "Mensal":
         setValorPlano(50);
@@ -70,7 +70,7 @@ const Forms = (props: FormProps) => {
       case "Anual":
         setValorPlano(600);
     }
-  }
+  }, [plano])
 
   useEffect(() => {
     valorDoPagamento();

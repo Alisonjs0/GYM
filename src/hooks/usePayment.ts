@@ -13,12 +13,6 @@ export function usePayment() {
     setPlano(plano);
   };
 
-  useEffect(() => {
-    if (valor > 0 && nome && plano && !isProcessing.current) {
-      processarPagamento();
-    }
-  }, [valor, nome, plano]);
-
   const processarPagamento = async () => {
     if (isProcessing.current) return;
     isProcessing.current = true;
@@ -48,6 +42,12 @@ export function usePayment() {
       if (win) win.focus();
     }
   })
+
+  useEffect(() => {
+    if (valor > 0 && nome && plano && !isProcessing.current) {
+      processarPagamento();
+    }
+  }, [valor, nome, plano]);
 
   return { processarPagamento, qrCode, handleChangeInfo };
 }

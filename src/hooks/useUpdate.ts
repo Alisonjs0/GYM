@@ -53,7 +53,6 @@ export const useUpdate = () => {
   };
 
   const criarPagamento = async (data: object) => {
-    console.log(data)
     try {
       const docRef = doc(db, "alunos", idAluno);
       const paymentRef = collection(docRef, "pagamentos");
