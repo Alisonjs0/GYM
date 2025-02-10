@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { db } from "../firebase/config";
-import { doc, updateDoc, getDoc, collection, addDoc} from "firebase/firestore";
+import { doc, updateDoc, getDoc, collection, addDoc } from "firebase/firestore";
 
 type AlunoData = {
   nome?: string;
@@ -19,10 +19,9 @@ export const useUpdate = () => {
   // const addAluno = async (data: { nome: string }) => {
   //   const alunosRef = collection(db, "alunos");
   //   const docRef = await addDoc(alunosRef, data);
-  
+
   //   console.log("Documento adicionado com ID:", docRef.id); // ID gerado automaticamente
   // };
-
 
   const atualizar = async (data: AlunoData) => {
     if (!idAluno) {
@@ -34,8 +33,8 @@ export const useUpdate = () => {
 
     try {
       const docRef = doc(db, "alunos", idAluno);
-      
-      const docSnap = await getDoc(docRef); 
+
+      const docSnap = await getDoc(docRef);
 
       if (!docSnap.exists()) {
         console.error(`Erro: Nenhum aluno encontrado com o ID ${idAluno}`);
@@ -69,6 +68,6 @@ export const useUpdate = () => {
     atualizar,
     loading,
     criarPagamento,
-    newPaymentId
+    newPaymentId,
   };
 };
