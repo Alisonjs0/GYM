@@ -43,11 +43,5 @@ export function usePayment() {
     }
   })
 
-  useEffect(() => {
-    if (valor > 0 && nome && plano && !isProcessing.current) {
-      processarPagamento();
-    }
-  }, [valor, nome, plano]);
-
   return { processarPagamento, qrCode, handleChangeInfo };
 }
