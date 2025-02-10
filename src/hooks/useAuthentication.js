@@ -12,8 +12,7 @@ import {
 import { useState, useEffect } from "react";
 
 export const useAuthentication = () => {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -43,18 +42,23 @@ export const useAuthentication = () => {
     setError(false);
 
     try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+      const token = await userCredential.user.getIdToken();
+      document.cookie = `securetoken=${token}; path=/; secure`; 
+
+      router.push("/");
+
       setLoading(false);
-      document.cookie = "isLogged=true; path=/; secure"; 
-      router.push("/")
+
     } catch (error) {
       let systemErrorMessage;
-      if (error.message.includes("user-not-found")) {
+      if (error.message.includes("auth/invalid-email")) {
         systemErrorMessage = "Usuário não encontrado.";
-      } else if (error.message.includes("wrong-password")) {
+      } else if (error.message.includes("auth/invalid-credential")) {
         systemErrorMessage = "Senha incorreta";
       } else {
         systemErrorMessage = "Ocorreu um erro, tente mais tarde.";
+        console.log(error.message);
       }
       setError(systemErrorMessage);
       setLoading(false);
@@ -72,5 +76,6 @@ export const useAuthentication = () => {
     loading,
     logout,
     login,
+
   };
 };
