@@ -21,11 +21,16 @@ export async function POST(req: NextRequest) {
   try {
     const decodedToken = await admin.auth().verifyIdToken(token);
     return NextResponse.json({ user: decodedToken });
-  } catch (error: string | any) {
-    if (error && error.message.includes('auth/id-token-expired')) {
-      return NextResponse.json({ error: 'Token expirado. Faça login novamente.' }, { status: 401 });
+  } catch (error: unknown) {
+    if (
+      error instanceof Error &&
+      error.message.includes("auth/id-token-expired")
+    ) {
+      return NextResponse.json(
+        { error: "Token expirado. Faça login novamente." },
+        { status: 401 }
+      );
     }
     return NextResponse.json({ message: "Token inválido" }, { status: 401 });
-
   }
 }
