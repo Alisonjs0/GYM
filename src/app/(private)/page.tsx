@@ -45,12 +45,11 @@ const Dashboard = () => {
       }
     }
   });
-
   const resultdado = meses.map((nomeMes, index) => ({
     mes: nomeMes,
     matriculas: contagemPorMes[index],
     desistencias: desistenciasPorMes[index],
-    arrecadado: arrecadadoPorMes[index] ? arrecadadoPorMes[index].toFixed(2) : ""
+    arrecadado: arrecadadoPorMes[index] ? Number(arrecadadoPorMes[index].toFixed(2)) : 0
   }));
 
 
