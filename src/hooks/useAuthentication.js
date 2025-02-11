@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { db } from "../firebase/config";
+import { db } from "@/firebase/config";
 
 import {
   getAuth,
@@ -44,7 +44,7 @@ export const useAuthentication = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
       const token = await userCredential.user.getIdToken();
-      document.cookie = `securetoken=${token}; path=/; secure; max-age=${24 * 60 * 60}`; 
+      document.cookie = `securetoken=${token}; path=/; secure; max-age=${60 * 60}`; 
 
       router.push("/");
 
