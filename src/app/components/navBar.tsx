@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import { usePathname } from "next/navigation";
@@ -12,21 +12,45 @@ import styles from "../styles/navBar.module.css";
 import Link from "next/link";
 
 const NavBar = () => {
-
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   const menuItens = [
-    {id: "dashboard", label: "Dashboard", path: "/", icon: <MdDashboard className={styles.icon}/>},
-    {id: "alunos", label: "Alunos", path: "/alunos", icon: <HiUserGroup className={styles.icon}/>},
-    {id: "agendamentos", label:"Agendamentos", path: "/agendamentos", icon: <FaCalendar className={styles.icon}/>},
-    {id: "financeiro", label: "Financeiro", path: "/financeiro", icon: <IoMdWallet className={styles.icon}/>}
-  ]
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      path: "/",
+      icon: <MdDashboard className={styles.icon} />,
+    },
+    {
+      id: "alunos",
+      label: "Alunos",
+      path: "/alunos",
+      icon: <HiUserGroup className={styles.icon} />,
+    },
+    {
+      id: "agendamentos",
+      label: "Agendamentos",
+      path: "/agendamentos",
+      icon: <FaCalendar className={styles.icon} />,
+    },
+    {
+      id: "financeiro",
+      label: "Financeiro",
+      path: "/financeiro",
+      icon: <IoMdWallet className={styles.icon} />,
+    },
+  ];
   return (
     <div className={styles.container}>
       <nav className={styles.nav}>
         <ul>
           {menuItens.map((item) => (
-            <li key={item.id} className={`${pathname == item.path ? styles.active : ""} drop-shadow-lg`}>
+            <li
+              key={item.id}
+              className={`${ pathname === item.path || (item.path !== "/" && pathname.startsWith(item.path))
+                ? styles.active
+                : ""} drop-shadow-lg`}
+            >
               <Link href={item.path} className={`${styles.link}`}>
                 {item.icon}
                 <p>{item.label}</p>
