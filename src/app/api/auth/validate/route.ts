@@ -11,26 +11,37 @@ if (!admin.apps.length) {
   });
 }
 
-export async function POST(req: NextRequest) {
-  const { token } = await req.json();
-
-  if (!token) {
-    return NextResponse.json({ message: "Token ausente" }, { status: 400 });
-  }
-
+export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
-    const decodedToken = await admin.auth().verifyIdToken(token);
-    return NextResponse.json({ user: decodedToken });
-  } catch (error: unknown) {
-    if (
-      error instanceof Error &&
-      error.message.includes("auth/id-token-expired")
-    ) {
-      return NextResponse.json(
-        { error: "Token expirado. Faça login novamente." },
-        { status: 401 }
-      );
+    const { token } = await req.json();
+
+    if (!token) {
+      return NextResponse.json({ message: "Token ausente" }, { status: 400 });
     }
-    return NextResponse.json({ message: "Token inválido" }, { status: 401 });
+
+    const decodedToken = await admin.auth().verifyIdToken(token);
+
+    return NextResponse.json({ user: decodedToken }, { status: 200 });
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message.includes("auth/id-token-expired")) {
+        return NextResponse.json(
+          { error: "Token expirado. Faça login novamente." },
+          { status: 401 }
+        );
+      }
+      if (error.message.includes("auth/id-token-revoked")) {
+        req.cookies.delete("securetoken");
+        return NextResponse.json(
+          { message: "Token revogado" },
+          { status: 401 }
+        );
+      }
+    }
+
+    return NextResponse.json(
+      { message: "Erro ao validar o token", details: String(error) },
+      { status: 500 }
+    );
   }
 }
