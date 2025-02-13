@@ -7,7 +7,6 @@ const client = new MercadoPagoConfig({
   options: { timeout: 5000 },
 });
 
-
 export async function POST(req: NextRequest) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const payment = new Payment(client);
