@@ -1,4 +1,4 @@
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { db } from "@/firebase/config";
@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 
 export const useAuthentication = () => {
   const router = useRouter();
+  const url = usePathname();
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -47,8 +48,11 @@ export const useAuthentication = () => {
       document.cookie = `securetoken=${token}; path=/; secure; max-age=${60 * 60}`; 
 
       router.push("/");
+      if (url === "/") {
+        console.log(url)
+        setLoading(false);
+      }
 
-      setLoading(false);
 
     } catch (error) {
       let systemErrorMessage;
